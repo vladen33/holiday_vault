@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Праздники и события — holiday_vault</title>
+<meta name="description" content="Каталог праздников и событий: Новый год, день рождения, свадьба, 8 Марта, Пасха, 1 Сентября. Готовые меню, списки продуктов и планы подготовки — без интернета.">
+<meta name="theme-color" content="#fdfcf9">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
+<script src="js/home.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<div class="page">
+
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <img src="images/favicon.svg" alt="" width="30" height="30" decoding="async">
+      <span>holiday_vault</span>
+    </a>
+    <p class="site-note">Каталог праздников · без интернета</p>
+  </header>
+
+  <main id="main">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <p class="eyebrow">Праздники и события</p>
+        <h1 id="hero-title">Всё для праздника — в одном месте</h1>
+        <p class="hero-lead">
+          Спокойный каталог идей: проверенные меню, точные списки продуктов
+          и планы подготовки. Выберите праздник — всё остальное уже собрано
+          на его странице.
+        </p>
+        <ul class="hero-badges">
+          <li class="badge">Без интернета</li>
+          <li class="badge">Открывается двойным кликом</li>
+        </ul>
+      </div>
+      <img class="hero-art" src="images/hero.svg" alt=""
+           width="520" height="360" decoding="async">
+    </section>
+
+    <section class="catalog" aria-labelledby="catalog-title">
+      <div class="catalog-head">
+        <h2 id="catalog-title">Каталог праздников</h2>
+        <p class="catalog-count" role="status" aria-live="polite" data-count>6 праздников</p>
+      </div>
+
+      <form class="filters" role="search" data-filters hidden>
+        <div class="filter-row">
+          <p class="field">
+            <label class="visually-hidden" for="q">Поиск по праздникам</label>
+            <input id="q" name="q" type="search" placeholder="Найти праздник…"
+                   autocomplete="off" data-search>
+          </p>
+          <button class="reset" type="button" data-reset hidden>Сбросить</button>
+        </div>
+        <div class="chips" role="group" aria-label="Фильтр по сезону">
+          <button class="chip-filter" type="button" data-filter="all" aria-pressed="true">Все</button>
+          <button class="chip-filter" type="button" data-filter="winter" aria-pressed="false">Зима</button>
+          <button class="chip-filter" type="button" data-filter="spring" aria-pressed="false">Весна</button>
+          <button class="chip-filter" type="button" data-filter="summer" aria-pressed="false">Лето</button>
+          <button class="chip-filter" type="button" data-filter="autumn" aria-pressed="false">Осень</button>
+          <button class="chip-filter" type="button" data-filter="family" aria-pressed="false">Семейные</button>
+        </div>
+      </form>
+
+      <noscript>
+        <p class="noscript-note">
+          Поиск и фильтры работают на JavaScript. Без него доступны все карточки —
+          просто выберите нужную.
+        </p>
+      </noscript>
+
+      <ul class="card-grid" data-cards>
+
+        <li class="card-item" data-season="winter family"
+            data-keywords="новый год нг 2027 меню рецепты закуски салаты оливье мимоза канапе горячее список продуктов план подготовки 31 декабря">
+          <article class="event-card">
+            <a class="event-link" href="new_year/index.html">
+              <img class="event-art" src="images/previews/new_year.svg" alt=""
+                   width="640" height="400" decoding="async">
+              <div class="event-body">
+                <p class="event-meta">31 декабря · Зима</p>
+                <h3 class="event-title">Новый год 2027</h3>
+                <p class="event-desc">
+                  Меню на 12 человек: канапе, закуски, рыбный и мясной салаты,
+                  два горячих блюда, список продуктов и план подготовки по дням.
+                </p>
+                <ul class="tags">
+                  <li class="tag tag-blue">Меню</li>
+                  <li class="tag tag-sand">Список продуктов</li>
+                  <li class="tag tag-sage">План подготовки</li>
+                </ul>
+                <span class="event-cta">Открыть страницу <span aria-hidden="true">→</span></span>
+              </div>
+            </a>
+          </article>
+        </li>
+
+        <li class="card-item" data-season="family"
+            data-keywords="день рождения др торт свечи гости шарики подарки сценарий игры">
+          <article class="event-card is-soon">
+            <img class="event-art" src="images/previews/birthday.svg" alt=""
+                 width="640" height="400" decoding="async">
+            <div class="event-body">
+              <p class="event-meta">Круглый год · Семейный праздник</p>
+              <h3 class="event-title">День рождения</h3>
+              <p class="event-desc">
+                Сценарий вечера, торт со свечами, украшение комнаты и игры
+                для гостей — от малышей до взрослых.
+              </p>
+              <ul class="tags">
+                <li class="tag tag-rose">Сценарий</li>
+                <li class="tag tag-sand">Торт</li>
+                <li class="tag tag-sage">Игры</li>
+              </ul>
+              <p class="event-soon"><span class="soon-badge">Скоро</span> Страница готовится</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="card-item" data-season="summer family"
+            data-keywords="свадьба свадебный банкет платье кольца букет невеста жених лето">
+          <article class="event-card is-soon">
+            <img class="event-art" src="images/previews/wedding.svg" alt=""
+                 width="640" height="400" decoding="async">
+            <div class="event-body">
+              <p class="event-meta">Июнь–сентябрь · Лето</p>
+              <h3 class="event-title">Свадьба</h3>
+              <p class="event-desc">
+                Чек-лист подготовки, банкетное меню, декор и тайминг дня —
+                чтобы ничего не забыть в самый важный день.
+              </p>
+              <ul class="tags">
+                <li class="tag tag-blue">Чек-лист</li>
+                <li class="tag tag-sand">Банкет</li>
+                <li class="tag tag-rose">Декор</li>
+              </ul>
+              <p class="event-soon"><span class="soon-badge">Скоро</span> Страница готовится</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="card-item" data-season="spring family"
+            data-keywords="8 марта восьмое марта цветы тюльпаны мимоза нарциссы подарки мама весна">
+          <article class="event-card is-soon">
+            <img class="event-art" src="images/previews/march8.svg" alt=""
+                 width="640" height="400" decoding="async">
+            <div class="event-body">
+              <p class="event-meta">8 марта · Весна</p>
+              <h3 class="event-title">8 Марта</h3>
+              <p class="event-desc">
+                Идеи подарков, весенний стол и букеты своими руками:
+                тюльпаны, мимоза и нарциссы.
+              </p>
+              <ul class="tags">
+                <li class="tag tag-rose">Подарки</li>
+                <li class="tag tag-sage">Цветы</li>
+                <li class="tag tag-sand">Стол</li>
+              </ul>
+              <p class="event-soon"><span class="soon-badge">Скоро</span> Страница готовится</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="card-item" data-season="spring family"
+            data-keywords="пасха пасхальный кулич творожная пасха яйца крашенки верба весна">
+          <article class="event-card is-soon">
+            <img class="event-art" src="images/previews/easter.svg" alt=""
+                 width="640" height="400" decoding="async">
+            <div class="event-body">
+              <p class="event-meta">Весна · дата меняется</p>
+              <h3 class="event-title">Пасха</h3>
+              <p class="event-desc">
+                Кулич, творожная пасха, окрашивание яиц и светлое застолье
+                для всей семьи.
+              </p>
+              <ul class="tags">
+                <li class="tag tag-sand">Кулич</li>
+                <li class="tag tag-rose">Пасха</li>
+                <li class="tag tag-sage">Яйца</li>
+              </ul>
+              <p class="event-soon"><span class="soon-badge">Скоро</span> Страница готовится</p>
+            </div>
+          </article>
+        </li>
+
+        <li class="card-item" data-season="autumn family"
+            data-keywords="1 сентября первое сентября школа линейка букет учебный год осень дети">
+          <article class="event-card is-soon">
+            <img class="event-art" src="images/previews/september.svg" alt=""
+                 width="640" height="400" decoding="async">
+            <div class="event-body">
+              <p class="event-meta">1 сентября · Осень</p>
+              <h3 class="event-title">1 Сентября</h3>
+              <p class="event-desc">
+                Букет первокласснику, сборы в школу и маленький семейный
+                праздник после линейки.
+              </p>
+              <ul class="tags">
+                <li class="tag tag-sage">Букет</li>
+                <li class="tag tag-blue">Школа</li>
+                <li class="tag tag-sand">Семья</li>
+              </ul>
+              <p class="event-soon"><span class="soon-badge">Скоро</span> Страница готовится</p>
+            </div>
+          </article>
+        </li>
+
+      </ul>
+
+      <p class="empty" data-empty hidden>
+        Ничего не найдено. Попробуйте другой запрос или сбросьте фильтры.
+        <button class="reset reset-inline" type="button" data-reset>Сбросить</button>
+      </p>
+    </section>
+
+    <section class="about" aria-labelledby="about-title">
+      <h2 id="about-title">Как устроен проект</h2>
+      <div class="about-grid">
+        <article class="about-card">
+          <h3>Работает без интернета</h3>
+          <p>
+            Страницы открываются двойным кликом по <code>index.html</code>.
+            Стили, картинки и скрипты лежат внутри проекта — ни одного
+            внешнего запроса. Эти же файлы отдаёт GitHub Pages.
+          </p>
+        </article>
+        <article class="about-card">
+          <h3>Порядок в файлах</h3>
+          <ul class="about-list">
+            <li><code>css/</code> — стили страниц</li>
+            <li><code>js/</code> — скрипты</li>
+            <li><code>images/</code> — иллюстрации</li>
+            <li><code>fonts/</code> — шрифты</li>
+            <li><code>new_year/</code> — страница праздника</li>
+          </ul>
+        </article>
+        <article class="about-card">
+          <h3>Как добавить праздник</h3>
+          <ol class="about-list">
+            <li>Создать папку раздела, например <code>birthday/</code>.</li>
+            <li>Положить в неё <code>index.html</code>, стили — в <code>css/</code>.</li>
+            <li>Добавить карточку-ссылку в каталог на этой странице.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> holiday_vault · каталог праздников</p>
+    <p class="footer-note">
+      Статический проект на HTML, CSS и небольшом количестве JavaScript.
+      Все файлы лежат рядом, поэтому страницы открываются и по двойному
+      клику, и на GitHub Pages.
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
+

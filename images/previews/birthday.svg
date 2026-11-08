@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Торт со свечами и воздушные шары">
+  <rect width="640" height="400" fill="#f6eedf"/>
+  <circle cx="120" cy="92" r="64" fill="#f6eaea"/>
+  <circle cx="540" cy="318" r="76" fill="#e8efe6"/>
+
+  <g transform="translate(148,116)">
+    <circle cx="40" cy="34" r="34" fill="#c98d95"/>
+    <path d="M48 66c-10 12-22 22-30 34" stroke="#b8838b" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="31" cy="57" rx="8" ry="5" fill="#e8b0b7" transform="rotate(-30 31 57)"/>
+  </g>
+
+  <g transform="translate(212,70)">
+    <circle cx="30" cy="26" r="26" fill="#9db8ca"/>
+    <path d="M22 50c-6 16-16 28-20 44" stroke="#7e9cb0" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <ellipse cx="330" cy="322" rx="150" ry="22" fill="#e6dccb"/>
+  <g transform="translate(330,196)">
+    <rect x="-104" y="42" width="208" height="82" rx="18" fill="#ffffff" stroke="#e3d6c4" stroke-width="2"/>
+    <rect x="-104" y="86" width="208" height="20" fill="#f6eaea"/>
+    <path d="M-104 60h208" stroke="#efd9d9" stroke-width="6"/>
+    <rect x="-72" y="10" width="144" height="40" rx="14" fill="#fdfbf7" stroke="#e3d6c4" stroke-width="2"/>
+
+    <g stroke="#c2a37a" stroke-width="6" stroke-linecap="round">
+      <path d="M-46 -2v-22"/>
+      <path d="M0 -2v-30"/>
+      <path d="M46 -2v-22"/>
+    </g>
+    <g fill="#e0a94f">
+      <ellipse cx="-46" cy="-32" rx="6" ry="10"/>
+      <ellipse cx="0" cy="-40" rx="6" ry="11"/>
+      <ellipse cx="46" cy="-32" rx="6" ry="10"/>
+    </g>
+    <g fill="#f3cf8a" opacity="0.8">
+      <circle cx="-58" cy="-40" r="3"/>
+      <circle cx="-12" cy="-50" r="3"/>
+      <circle cx="58" cy="-40" r="3"/>
+    </g>
+
+    <g fill="#c98d95">
+      <circle cx="-60" cy="118" r="5"/>
+      <circle cx="-20" cy="128" r="4"/>
+      <circle cx="24" cy="120" r="5"/>
+      <circle cx="66" cy="128" r="4"/>
+    </g>
+  </g>
+
+  <g fill="#9db8ca" opacity="0.75">
+    <circle cx="98" cy="300" r="6"/>
+    <circle cx="512" cy="120" r="5"/>
+    <circle cx="576" cy="182" r="4"/>
+    <circle cx="156" cy="238" r="4"/>
+  </g>
+  <g fill="#b8934f" opacity="0.7">
+    <circle cx="486" cy="80" r="4"/>
+    <circle cx="88" cy="196" r="3.5"/>
+    <circle cx="540" cy="230" r="4"/>
+  </g>
+
+  <g stroke="#c98d95" stroke-width="4" stroke-linecap="round" opacity="0.7">
+    <path d="M470 148v18M461 157h18"/>
+    <path d="M132 60v14M125 67h14"/>
+  </g>
+</svg>

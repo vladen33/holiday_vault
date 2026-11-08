@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Пасхальные яйца и ветка вербы">
+  <rect width="640" height="400" fill="#eef3ea"/>
+  <circle cx="118" cy="96" r="62" fill="#f6eedf"/>
+  <circle cx="536" cy="308" r="70" fill="#e8efe6"/>
+
+  <path d="M40 160c46 6 74 34 88 78" fill="none" stroke="#b6c9b8" stroke-width="6" stroke-linecap="round"/>
+  <g fill="#d8d2c4">
+    <ellipse cx="58" cy="166" rx="13" ry="9" transform="rotate(-18 58 166)"/>
+    <ellipse cx="84" cy="178" rx="13" ry="9" transform="rotate(-24 84 178)"/>
+    <ellipse cx="104" cy="196" rx="13" ry="9" transform="rotate(-30 104 196)"/>
+    <ellipse cx="118" cy="218" rx="12" ry="9" transform="rotate(-34 118 218)"/>
+  </g>
+
+  <ellipse cx="330" cy="330" rx="180" ry="26" fill="#dbe6d9"/>
+
+  <g transform="translate(246,278) rotate(-10)">
+    <path d="M0 -78c26 0 48 30 48 62S26 62 0 62-48 14-48-16s22-62 48-62z" fill="#c98d95"/>
+    <path d="M-46 -18h92" stroke="#fdfbf7" stroke-width="7" opacity="0.75"/>
+    <path d="M-42 6h84" stroke="#fdfbf7" stroke-width="7" opacity="0.75"/>
+    <g fill="#fdfbf7" opacity="0.85">
+      <circle cx="-20" cy="34" r="5"/>
+      <circle cx="0" cy="42" r="5"/>
+      <circle cx="20" cy="34" r="5"/>
+    </g>
+  </g>
+
+  <g transform="translate(354,266) rotate(8)">
+    <path d="M0 -86c28 0 52 32 52 66S28 66 0 66-52 14-52-20s24-66 52-66z" fill="#9db8ca"/>
+    <g fill="#fdfbf7" opacity="0.8">
+      <circle cx="-26" cy="-20" r="6"/>
+      <circle cx="0" cy="-8" r="6"/>
+      <circle cx="26" cy="-20" r="6"/>
+      <circle cx="-14" cy="10" r="6"/>
+      <circle cx="14" cy="10" r="6"/>
+      <circle cx="0" cy="38" r="6"/>
+    </g>
+  </g>
+
+  <g transform="translate(452,296) rotate(14)">
+    <path d="M0 -66c22 0 40 26 40 54S22 54 0 54-40 16-40-12s18-54 40-54z" fill="#d8be8a"/>
+    <path d="M-38 -6h76" stroke="#fdfbf7" stroke-width="6" opacity="0.8"/>
+    <path d="M-34 18h68" stroke="#fdfbf7" stroke-width="6" opacity="0.8"/>
+  </g>
+
+  <g fill="#7f9c86" opacity="0.7">
+    <ellipse cx="168" cy="334" rx="34" ry="12" transform="rotate(-16 168 334)"/>
+    <ellipse cx="512" cy="352" rx="30" ry="11" transform="rotate(14 512 352)"/>
+  </g>
+
+  <g fill="#b8934f" opacity="0.7">
+    <circle cx="208" cy="120" r="4"/>
+    <circle cx="452" cy="104" r="4"/>
+    <circle cx="576" cy="184" r="4"/>
+    <circle cx="120" cy="272" r="3.5"/>
+  </g>
+
+  <g stroke="#c98d95" stroke-width="4" stroke-linecap="round" opacity="0.65">
+    <path d="M520 146v16M512 154h16"/>
+    <path d="M168 76v14M161 83h14"/>
+  </g>
+</svg>

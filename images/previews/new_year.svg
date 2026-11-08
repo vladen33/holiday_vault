@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Зимний пейзаж с ёлками, снежинками и подарком">
+  <rect width="640" height="400" fill="#e6eef3"/>
+  <circle cx="516" cy="84" r="54" fill="#f6eedf"/>
+
+  <ellipse cx="320" cy="416" rx="430" ry="150" fill="#f7fbfd"/>
+  <ellipse cx="150" cy="420" rx="240" ry="120" fill="#ffffff"/>
+  <ellipse cx="520" cy="426" rx="260" ry="132" fill="#fbfdff"/>
+
+  <g transform="translate(150,158)">
+    <path d="M0 10l70 100H-70z" fill="#728f7b"/>
+    <path d="M0 -30l55 70H-55z" fill="#86a48d"/>
+    <path d="M0 -70l40 60H-40z" fill="#9ab6a1"/>
+  </g>
+  <rect x="141" y="262" width="18" height="34" rx="7" fill="#c2a37a"/>
+
+  <g transform="translate(262,214)">
+    <path d="M0 4l48 74H-48z" fill="#7f9c86"/>
+    <path d="M0 -28l34 50H-34z" fill="#96b29d"/>
+  </g>
+  <rect x="254" y="286" width="16" height="30" rx="6" fill="#c2a37a"/>
+
+  <path d="M62 108l0 0" fill="none"/>
+  <g transform="translate(452,246)">
+    <rect width="104" height="84" rx="12" fill="#a97079"/>
+    <rect x="42" width="20" height="84" fill="#f6eedf"/>
+    <rect y="33" width="104" height="18" fill="#f6eedf"/>
+    <ellipse cx="36" cy="-8" rx="19" ry="12" fill="#c98d95" transform="rotate(-16 36 -8)"/>
+    <ellipse cx="68" cy="-8" rx="19" ry="12" fill="#c98d95" transform="rotate(16 68 -8)"/>
+    <circle cx="52" cy="-4" r="6" fill="#e8b0b7"/>
+  </g>
+
+  <g stroke="#a9c9dc" stroke-width="3" stroke-linecap="round">
+    <g transform="translate(96,74)">
+      <path d="M-9 0h18M0 -9v18M-6 -6l12 12M-6 6l12 -12"/>
+    </g>
+    <g transform="translate(384,56) scale(0.75)">
+      <path d="M-9 0h18M0 -9v18M-6 -6l12 12M-6 6l12 -12"/>
+    </g>
+    <g transform="translate(556,196) scale(0.8)">
+      <path d="M-9 0h18M0 -9v18M-6 -6l12 12M-6 6l12 -12"/>
+    </g>
+    <g transform="translate(320,96) scale(0.6)">
+      <path d="M-9 0h18M0 -9v18M-6 -6l12 12M-6 6l12 -12"/>
+    </g>
+  </g>
+
+  <g fill="#b8934f" opacity="0.7">
+    <circle cx="196" cy="72" r="4"/>
+    <circle cx="430" cy="120" r="3.5"/>
+    <circle cx="600" cy="330" r="4"/>
+    <circle cx="70" cy="330" r="3.5"/>
+  </g>
+</svg>

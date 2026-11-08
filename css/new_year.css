@@ -1,0 +1,359 @@
+/* ==========================================================================
+   new_year.css — стили страницы «Новогоднее меню на 12 человек»
+   Токены палитры, сброс и базовая типографика лежат в base.css.
+   ========================================================================== */
+
+body {
+  background:
+    radial-gradient(circle at 12% 6%, #ffffff 0, transparent 42%),
+    radial-gradient(circle at 88% 2%, #fdf3e4 0, transparent 38%),
+    linear-gradient(180deg, #f1faff 0%, #fdfefe 45%, #fff9f4 100%);
+  background-attachment: fixed;
+}
+
+.snowfall {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.flake {
+  position: absolute;
+  top: -6vh;
+  font-size: 1.1rem;
+  color: #b9dcf1;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.9; }
+  100% { transform: translateY(112vh) rotate(320deg); opacity: 0.25; }
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.6rem 1.1rem 3rem;
+}
+
+.page-nav {
+  display: flex;
+  margin: 0 0 0.9rem;
+}
+
+header.hero {
+  padding: 1.6rem 1.6rem 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow);
+  text-align: center;
+  overflow: hidden;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--red-dark);
+}
+
+.hero-note {
+  margin: 0 auto 1rem;
+  max-width: 62ch;
+  color: var(--ink-soft);
+}
+
+.scene { display: block; width: 100%; height: auto; }
+
+.toc {
+  margin: 1.4rem 0 0;
+  padding: 1rem 1.2rem;
+  background: var(--ice);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.toc p {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 1.3rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.toc li { break-inside: avoid; margin: 0.2rem 0; }
+
+.toc a { color: var(--ink); text-decoration-color: var(--ice-deep); }
+
+section { margin-top: 2.2rem; }
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 0.3rem;
+  padding-bottom: 0.35rem;
+  font-size: 1.45rem;
+  color: var(--ink);
+  border-bottom: 2px dashed var(--ice-deep);
+  scroll-margin-top: 1rem;
+}
+
+h2 .ico { font-size: 1.35rem; }
+
+.lead {
+  margin: 0.4rem 0 1rem;
+  color: var(--ink-soft);
+  max-width: 78ch;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.9rem;
+}
+
+.chip {
+  padding: 0.12rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.chip-fish { color: #1b6a8a; background: #e3f4fb; border-color: #bfe2f2; }
+.chip-meat { color: #9b3a3a; background: #fdeaea; border-color: #f4cccc; }
+.chip-vodka { color: #4a5a16; background: #f2f7dc; border-color: #dbe8b3; }
+.chip-wine { color: #6b3f7a; background: #f6ecf9; border-color: #e3cdea; }
+.chip-count { color: var(--ink-soft); background: #f2f8fc; border-color: var(--line); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 1.1rem;
+  margin-top: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem 1.25rem 1.3rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--ice-deep);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card:nth-child(3n+1) { border-top-color: #f7c9cc; }
+.card:nth-child(3n+2) { border-top-color: #bfe2f2; }
+.card:nth-child(3n+3) { border-top-color: #f6e2b4; }
+
+.card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.12rem;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.card .sub {
+  margin: 0 0 0.7rem;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+}
+
+.card h4 {
+  margin: 0.9rem 0 0.35rem;
+  font-size: 0.95rem;
+  color: var(--green);
+}
+
+table.ing {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+table.ing caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+table.ing th,
+table.ing td {
+  padding: 0.28rem 0.4rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--ice);
+}
+
+table.ing th {
+  font-weight: 600;
+  color: var(--ink-soft);
+  background: #f4fafd;
+}
+
+table.ing td.qty {
+  width: 38%;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+ol.steps {
+  margin: 0.4rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.93rem;
+}
+
+ol.steps li { margin: 0.3rem 0; }
+
+.tip {
+  margin: 0.9rem 0 0;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.88rem;
+  background: var(--gold-soft);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+}
+
+table.shop {
+  width: 100%;
+  margin: 1rem 0 0;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+table.shop caption {
+  caption-side: top;
+  padding: 0.6rem 0.8rem;
+  font-weight: 700;
+  text-align: left;
+  color: var(--ink);
+  background: var(--ice);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+table.shop th,
+table.shop td {
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ice);
+}
+
+table.shop thead th {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  background: #f4fafd;
+}
+
+table.shop td.qty { white-space: nowrap; width: 34%; }
+
+table.shop tbody tr:nth-child(even) { background: #fbfeff; }
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.plan {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.plan li {
+  padding: 0.8rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--red);
+  border-radius: 0 12px 12px 0;
+  box-shadow: var(--shadow);
+}
+
+.plan b { color: var(--red-dark); }
+
+footer.page-footer {
+  margin-top: 2.6rem;
+  padding-top: 1rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.page-footer-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Планшет: чуть плотнее сетка и поля страницы */
+@media (min-width: 641px) and (max-width: 900px) {
+  .page { padding: 1.3rem 1rem 2.6rem; }
+}
+
+/* Телефон: одна колонка, компактные таблицы, крупные тач-цели */
+@media (max-width: 640px) {
+  .toc ol { columns: 1; }
+  .page { padding: 0.9rem 0.7rem 2rem; }
+  header.hero { padding: 1.1rem 0.9rem 0; }
+  h1 { font-size: clamp(1.6rem, 8vw, 2rem); }
+  h2 { font-size: 1.22rem; }
+  section { margin-top: 1.7rem; }
+  .card { padding: 1rem 0.95rem 1.1rem; }
+  .plan li { padding: 0.7rem 0.8rem; }
+  .toc { padding: 0.85rem 0.9rem; }
+  table.ing td.qty,
+  table.shop td.qty { white-space: normal; }
+  table.shop { font-size: 0.86rem; }
+  table.shop th,
+  table.shop td { padding: 0.35rem 0.45rem; }
+  table.shop td.qty { width: 30%; }
+  .split { gap: 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flake { animation: none; opacity: 0.35; }
+  html { scroll-behavior: auto; }
+}
+
+@media print {
+  body { background: #fff; }
+  .snowfall, .toc { display: none; }
+  .card, table.shop, .plan li { box-shadow: none; }
+  .card { break-inside: avoid; }
+}

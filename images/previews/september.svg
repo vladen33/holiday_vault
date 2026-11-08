@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Школьный звонок, книги и осенний лист">
+  <rect width="640" height="400" fill="#e6eef3"/>
+  <circle cx="152" cy="96" r="60" fill="#f6eedf"/>
+  <circle cx="500" cy="86" r="48" fill="#e8efe6"/>
+
+  <g transform="translate(320,150)">
+    <path d="M0 -96v34" stroke="#a97079" stroke-width="7" stroke-linecap="round"/>
+    <ellipse cx="0" cy="-100" rx="16" ry="9" fill="#c98d95"/>
+    <path d="M0 -60c-42 0-62 36-62 72 0 16-14 22-14 34h152c0-12-14-18-14-34 0-36-20-72-62-72z" fill="#d8be8a"/>
+    <path d="M0 -60c-42 0-62 36-62 72 0 16-14 22-14 34h76z" fill="#e2cba0"/>
+    <rect x="-10" y="-70" width="20" height="16" rx="8" fill="#b8934f"/>
+    <circle cx="0" cy="60" r="12" fill="#b8934f"/>
+    <circle cx="0" cy="60" r="5" fill="#8a6a34"/>
+  </g>
+
+  <g transform="translate(146,318)">
+    <rect x="0" y="0" width="128" height="24" rx="8" fill="#9db8ca"/>
+    <rect x="8" y="-26" width="112" height="24" rx="8" fill="#a97079"/>
+    <rect x="2" y="-52" width="120" height="24" rx="8" fill="#7f9c86"/>
+  </g>
+
+  <g transform="translate(492,296) rotate(12)">
+    <path d="M0 0c10-38 46-58 76-48-6 34-38 58-76 48z" fill="#d8be8a"/>
+    <path d="M4 4c18-22 40-36 64-44" stroke="#b8934f" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M0 0l-16 22" stroke="#b8934f" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <g fill="#c98d95" opacity="0.7">
+    <ellipse cx="236" cy="352" rx="28" ry="10" transform="rotate(-14 236 352)"/>
+    <ellipse cx="578" cy="252" rx="24" ry="9" transform="rotate(22 578 252)"/>
+  </g>
+
+  <g fill="#b8934f" opacity="0.7">
+    <circle cx="216" cy="120" r="4"/>
+    <circle cx="416" cy="72" r="4"/>
+    <circle cx="580" cy="112" r="4"/>
+    <circle cx="80" cy="240" r="3.5"/>
+    <circle cx="420" cy="330" r="3.5"/>
+  </g>
+
+  <g stroke="#6f92a8" stroke-width="4" stroke-linecap="round" opacity="0.6">
+    <path d="M132 186v16M124 194h16"/>
+    <path d="M556 350v14M549 357h14"/>
+  </g>
+</svg>

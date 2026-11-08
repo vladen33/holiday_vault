@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Тюльпаны и весеннее солнце">
+  <rect width="640" height="400" fill="#e8efe6"/>
+  <circle cx="508" cy="92" r="58" fill="#f6eedf"/>
+  <circle cx="508" cy="92" r="34" fill="#f3d8a6"/>
+
+  <g stroke="#7f9c86" stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M232 376V214"/>
+    <path d="M320 380V188"/>
+    <path d="M404 376V222"/>
+  </g>
+
+  <g fill="#7f9c86" opacity="0.8">
+    <ellipse cx="196" cy="322" rx="42" ry="14" transform="rotate(-28 196 322)"/>
+    <ellipse cx="268" cy="336" rx="40" ry="14" transform="rotate(22 268 336)"/>
+    <ellipse cx="358" cy="318" rx="44" ry="15" transform="rotate(-24 358 318)"/>
+    <ellipse cx="434" cy="338" rx="40" ry="14" transform="rotate(24 434 338)"/>
+    <ellipse cx="316" cy="348" rx="34" ry="12" transform="rotate(10 316 348)"/>
+  </g>
+
+  <g transform="translate(232,196)">
+    <ellipse cx="-16" cy="-26" rx="15" ry="30" transform="rotate(-20 -16 -26)" fill="#c98d95"/>
+    <ellipse cx="16" cy="-26" rx="15" ry="30" transform="rotate(20 16 -26)" fill="#c98d95"/>
+    <ellipse cx="0" cy="-22" rx="15" ry="32" fill="#dcadb3"/>
+  </g>
+
+  <g transform="translate(320,166)">
+    <ellipse cx="-18" cy="-30" rx="16" ry="34" transform="rotate(-20 -18 -30)" fill="#a97079"/>
+    <ellipse cx="18" cy="-30" rx="16" ry="34" transform="rotate(20 18 -30)" fill="#a97079"/>
+    <ellipse cx="0" cy="-26" rx="16" ry="36" fill="#c98d95"/>
+  </g>
+
+  <g transform="translate(404,204)">
+    <ellipse cx="-16" cy="-26" rx="15" ry="30" transform="rotate(-20 -16 -26)" fill="#e0b3b8"/>
+    <ellipse cx="16" cy="-26" rx="15" ry="30" transform="rotate(20 16 -26)" fill="#e0b3b8"/>
+    <ellipse cx="0" cy="-22" rx="15" ry="32" fill="#eec6c9"/>
+  </g>
+
+  <g fill="#b8934f" opacity="0.7">
+    <circle cx="150" cy="112" r="4"/>
+    <circle cx="430" cy="96" r="4"/>
+    <circle cx="96" cy="248" r="4"/>
+    <circle cx="556" cy="264" r="4"/>
+    <circle cx="264" cy="96" r="3.5"/>
+  </g>
+
+  <g stroke="#a97079" stroke-width="4" stroke-linecap="round" opacity="0.7">
+    <path d="M140 168v16M132 176h16"/>
+    <path d="M488 300v14M481 307h14"/>
+  </g>
+
+  <ellipse cx="320" cy="392" rx="220" ry="26" fill="#dbe6d9"/>
+</svg>

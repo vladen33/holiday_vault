@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" width="520" height="360" role="img" aria-label="Календарь праздников с сердечками и искрами">
+  <circle cx="272" cy="182" r="156" fill="#f6eedf"/>
+  <circle cx="396" cy="88" r="62" fill="#e8efe6"/>
+  <circle cx="116" cy="292" r="46" fill="#e6eef3"/>
+
+  <g transform="translate(150,52)">
+    <rect x="0" y="0" width="220" height="246" rx="22" fill="#ffffff" stroke="#e3e6e2" stroke-width="2"/>
+    <path d="M0 40a22 22 0 0 1 22-22h176a22 22 0 0 1 22 22v16H0z" fill="#7f9c86"/>
+    <rect x="58" y="-12" width="10" height="36" rx="5" fill="#55705e"/>
+    <rect x="152" y="-12" width="10" height="36" rx="5" fill="#55705e"/>
+
+    <g fill="#d9e2da">
+      <rect x="24" y="82" width="34" height="26" rx="8"/>
+      <rect x="70" y="82" width="34" height="26" rx="8"/>
+      <rect x="116" y="82" width="34" height="26" rx="8"/>
+      <rect x="162" y="82" width="34" height="26" rx="8"/>
+      <rect x="24" y="126" width="34" height="26" rx="8"/>
+      <rect x="116" y="126" width="34" height="26" rx="8"/>
+      <rect x="162" y="126" width="34" height="26" rx="8"/>
+      <rect x="24" y="170" width="34" height="26" rx="8"/>
+      <rect x="70" y="170" width="34" height="26" rx="8"/>
+      <rect x="116" y="170" width="34" height="26" rx="8"/>
+    </g>
+
+    <rect x="70" y="126" width="34" height="26" rx="8" fill="#a97079"/>
+    <path d="M87 144s-6-3.8-6-8a3.3 3.3 0 0 1 6-2 3.3 3.3 0 0 1 6 2c0 4.2-6 8-6 8z" fill="#ffffff"/>
+
+    <rect x="162" y="170" width="34" height="26" rx="8" fill="#e6eef3"/>
+  </g>
+
+  <g fill="#a97079" opacity="0.85">
+    <path d="M424 232s-13-8.2-13-17.2a7 7 0 0 1 13-4.2 7 7 0 0 1 13 4.2c0 9-13 17.2-13 17.2z"/>
+    <path d="M96 128s-9-5.7-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.3-9 12-9 12z" opacity="0.6"/>
+  </g>
+
+  <g stroke="#6f92a8" stroke-width="4" stroke-linecap="round" opacity="0.7">
+    <path d="M418 158v22M407 169h22"/>
+    <path d="M76 76v16M68 84h16"/>
+  </g>
+
+  <g fill="#b8934f" opacity="0.75">
+    <circle cx="146" cy="304" r="5"/>
+    <circle cx="452" cy="288" r="4"/>
+    <circle cx="352" cy="322" r="4"/>
+    <circle cx="66" cy="196" r="4"/>
+  </g>
+
+  <g fill="none" stroke="#55705e" stroke-width="3" stroke-linecap="round" opacity="0.45">
+    <path d="M452 196c6-10 18-12 26-6"/>
+    <path d="M86 248c-2-12 6-22 18-24"/>
+  </g>
+</svg>

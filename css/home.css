@@ -1,0 +1,605 @@
+/* ==========================================================================
+   home.css — главная страница-каталог праздников
+   Мобильно-первый макет: базовые правила для телефона, брейкпоинты — min-width.
+   Токены, сброс и базовые стили лежат в base.css.
+   ========================================================================== */
+
+html {
+  scroll-padding-top: 1rem;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 0%, #ffffff 0, transparent 46%),
+    radial-gradient(circle at 92% 3%, var(--sand-soft) 0, transparent 42%),
+    linear-gradient(180deg, #f5f8f4 0%, var(--bg) 44%, #fcf7f1 100%);
+  background-attachment: fixed;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: clamp(0.9rem, 2.4vw, 1.6rem) var(--gutter) clamp(1.2rem, 3vw, 2rem);
+}
+
+/* Ссылка «к содержимому» — видна только при фокусе с клавиатуры */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0.8rem;
+  z-index: 10;
+  padding: 0.6rem 1.1rem;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: 0 0 12px 12px;
+  box-shadow: var(--brand-shadow);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Шапка сайта
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  margin-bottom: clamp(1rem, 3vw, 1.7rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.brand:hover span {
+  text-decoration: underline;
+  text-decoration-color: var(--sage);
+  text-underline-offset: 4px;
+}
+
+.site-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Первый экран
+   -------------------------------------------------------------------------- */
+
+.hero {
+  display: grid;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  background: linear-gradient(160deg, #ffffff 0%, #fbfdfb 58%, var(--sage-soft) 100%);
+  border: 1px solid var(--brand-line);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--brand-shadow);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+}
+
+h1 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.7rem, 5.5vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.hero-lead {
+  max-width: 60ch;
+  margin: 0 0 1rem;
+  font-size: clamp(1rem, 2.2vw, 1.08rem);
+  color: var(--text-soft);
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badge {
+  padding: 0.15rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--sage-deep);
+  background: var(--sage-soft);
+  border: 1px solid #d3e0d5;
+  border-radius: 999px;
+}
+
+.hero-art {
+  justify-self: center;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Каталог: заголовок, поиск и фильтры
+   -------------------------------------------------------------------------- */
+
+.catalog {
+  margin-top: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.catalog-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem 1rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  color: var(--text);
+}
+
+.catalog-count {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-soft);
+}
+
+.filters {
+  margin: 0.9rem 0 0;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.field {
+  flex: 1 1 240px;
+  margin: 0;
+}
+
+input[type="search"] {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.55rem 1rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px rgba(43, 58, 66, 0.05);
+}
+
+input[type="search"]::placeholder {
+  color: #7d8b92;
+}
+
+input[type="search"]:focus-visible {
+  border-color: var(--blue-deep);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.chip-filter {
+  min-height: 44px;
+  padding: 0.35rem 1rem;
+  font: inherit;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: 999px;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.chip-filter:hover {
+  color: var(--text);
+  border-color: var(--blue);
+}
+
+.chip-filter[aria-pressed="true"] {
+  color: #ffffff;
+  background: var(--blue-deep);
+  border-color: var(--blue-deep);
+}
+
+.reset {
+  min-height: 44px;
+  padding: 0.35rem 1rem;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: 999px;
+}
+
+.reset:hover {
+  color: var(--rose-deep);
+  border-color: var(--rose);
+}
+
+.reset-inline {
+  min-height: 38px;
+  margin-left: 0.35rem;
+  padding: 0.1rem 0.75rem;
+}
+
+/* --------------------------------------------------------------------------
+   Сетка карточек праздников
+   -------------------------------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: clamp(0.8rem, 2.2vw, 1.2rem);
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card-item {
+  display: flex;
+  min-width: 0;
+}
+
+.event-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: var(--radius);
+  box-shadow: var(--brand-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-item:hover .event-card,
+.card-item:focus-within .event-card {
+  border-color: var(--sage);
+  box-shadow: 0 10px 26px rgba(43, 58, 66, 0.12);
+  transform: translateY(-2px);
+}
+
+.event-link {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  border-radius: inherit;
+}
+
+.event-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--sage-soft);
+  border-bottom: 1px solid var(--brand-line);
+  transition: transform 0.25s ease;
+}
+
+.card-item:hover .event-art {
+  transform: scale(1.02);
+}
+
+.event-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.95rem 1.05rem 1.05rem;
+}
+
+.event-meta {
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.event-title {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.event-desc {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: 0.1rem 0.55rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 999px;
+}
+
+.tag-blue { color: #2c5568; background: var(--blue-soft); border-color: #cfe0e8; }
+.tag-sage { color: #3f5c47; background: var(--sage-soft); border-color: #d3e0d5; }
+.tag-sand { color: var(--sand-deep); background: var(--sand-soft); border-color: #e7d8ba; }
+.tag-rose { color: var(--rose-deep); background: var(--rose-soft); border-color: #e8d2d2; }
+
+.event-cta {
+  margin-top: auto;
+  padding-top: 0.65rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--sage-deep);
+}
+
+.event-link:hover .event-cta {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Карточки будущих разделов */
+.event-card.is-soon {
+  background: #fdfbf7;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.card-item:hover .event-card.is-soon,
+.card-item:focus-within .event-card.is-soon {
+  border-color: var(--sand);
+  box-shadow: none;
+  transform: none;
+}
+
+.card-item:hover .is-soon .event-art {
+  transform: none;
+}
+
+.event-soon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.65rem;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+
+.soon-badge {
+  padding: 0.1rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sand-deep);
+  background: var(--sand-soft);
+  border: 1px solid #e7d8ba;
+  border-radius: 999px;
+}
+
+/* Состояние «ничего не найдено» и заметка для режима без JS */
+.empty {
+  margin: 1.1rem 0 0;
+  padding: 0.9rem 1.1rem;
+  color: var(--text);
+  background: var(--sand-soft);
+  border-left: 4px solid var(--sand);
+  border-radius: 0 12px 12px 0;
+}
+
+.noscript-note {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  background: var(--blue-soft);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 12px 12px 0;
+}
+
+/* --------------------------------------------------------------------------
+   Блок «Как устроен проект»
+   -------------------------------------------------------------------------- */
+
+.about {
+  margin-top: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: clamp(0.8rem, 2.2vw, 1.1rem);
+  margin-top: 0.9rem;
+}
+
+.about-card {
+  padding: 1rem 1.1rem 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-top: 4px solid var(--sage);
+  border-radius: var(--radius);
+  box-shadow: var(--brand-shadow);
+}
+
+.about-card:nth-child(2) { border-top-color: var(--blue); }
+.about-card:nth-child(3) { border-top-color: var(--rose); }
+
+.about-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.about-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.about-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.about-list li {
+  margin: 0.2rem 0;
+}
+
+code {
+  padding: 0.05rem 0.35rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  color: var(--text);
+  background: var(--sage-soft);
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Подвал
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  margin-top: auto;
+  padding-top: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-soft);
+}
+
+.footer-note {
+  margin-top: 0.35rem !important;
+  max-width: 72ch;
+}
+
+/* --------------------------------------------------------------------------
+   Планшет и десктоп
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 600px) {
+  .hero {
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+  }
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .hero-art {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .event-card,
+  .event-art,
+  .chip-filter {
+    transition: none;
+  }
+
+  .card-item:hover .event-card,
+  .card-item:focus-within .event-card {
+    transform: none;
+  }
+
+  .card-item:hover .event-art {
+    transform: none;
+  }
+}
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .skip-link,
+  .filters,
+  .about {
+    display: none !important;
+  }
+
+  .event-card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+
+

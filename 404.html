@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Страница не найдена — holiday_vault</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg: #fdfcf9;
+    --surface: #ffffff;
+    --text: #2b3a42;
+    --text-soft: #556770;
+    --sage: #7f9c86;
+    --sage-deep: #55705e;
+    --sage-soft: #e8efe6;
+    --line: #e3e6e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1.2rem;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 12% 0%, #ffffff 0, transparent 46%),
+      linear-gradient(180deg, #f5f8f4 0%, var(--bg) 50%, #fbf7f2 100%);
+  }
+
+  .card {
+    width: 100%;
+    max-width: 34rem;
+    padding: clamp(1.4rem, 5vw, 2.4rem);
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 8px 24px rgba(43, 58, 66, 0.08);
+  }
+
+  .code {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--sage);
+  }
+
+  h1 {
+    margin: 0.2rem 0 0.6rem;
+    font-size: clamp(1.3rem, 4vw, 1.7rem);
+  }
+
+  p {
+    margin: 0 0 0.8rem;
+    color: var(--text-soft);
+  }
+
+  .home {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0.45rem 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    background: var(--sage-deep);
+    border-radius: 999px;
+  }
+
+  .home:hover {
+    background: var(--sage);
+  }
+
+  .home:focus-visible {
+    outline: 3px solid var(--text);
+    outline-offset: 3px;
+  }
+</style>
+</head>
+<body>
+
+<main class="card">
+  <p class="code">404</p>
+  <h1>Такой страницы нет</h1>
+  <p>
+    Возможно, ссылка устарела или в адресе опечатка. Все праздники
+    собраны в каталоге на главной странице.
+  </p>
+  <p><a class="home" href="./" data-home>← В каталог праздников</a></p>
+</main>
+
+<script>
+  /* На GitHub Pages 404 отдаётся для любого пути, поэтому ссылку на главную
+     вычисляем от первого сегмента адреса (/holiday_vault/...). Локально
+     (file://) остаётся относительный путь "./". */
+  (function () {
+    'use strict';
+    var link = document.querySelector('[data-home]');
+    if (!link || location.protocol === 'file:') {
+      return;
+    }
+    var parts = location.pathname.split('/').filter(Boolean);
+    if (parts.length >= 2) {
+      link.setAttribute('href', '/' + parts[0] + '/');
+    }
+  }());
+</script>
+
+</body>
+</html>
