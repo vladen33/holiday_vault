@@ -104,6 +104,8 @@ h1 {
 
 .toc a { color: var(--ink); text-decoration-color: var(--ice-deep); }
 
+.lead a { color: var(--ink); text-decoration-color: var(--ice-deep); }
+
 section { margin-top: 2.2rem; }
 
 h2 {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Рецепты праздничного стола — holiday_vault</title>
+<meta name="description" content="База рецептов праздничного стола: 10 салатов на Новый год с составом, граммовками и пошаговым приготовлением. Данные хранятся в JSON.">
+<meta name="theme-color" content="#fdfcf9">
+<link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/home.css">
+<link rel="stylesheet" href="../css/recipes.css">
+<script src="../data/recipes.bundle.js" defer></script>
+<script src="../js/recipe-store.js" defer></script>
+<script src="../js/recipes.js" defer></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<div class="page">
+
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <img src="../images/favicon.svg" alt="" width="30" height="30" decoding="async">
+      <span>holiday_vault</span>
+    </a>
+    <p class="site-note">Рецепты · база данных в JSON</p>
+  </header>
+
+  <nav class="page-nav" aria-label="Навигация по проекту">
+    <a class="back-link" href="../index.html">← Все праздники</a>
+  </nav>
+
+  <main id="main">
+
+    <section class="recipes-intro" aria-labelledby="page-title">
+      <p class="eyebrow">Праздничный стол</p>
+      <h1 id="page-title">Рецепты праздничного стола</h1>
+      <p class="lead">
+        Выберите блюдо в списке или в карточках — откроется состав
+        с граммовками и порядок приготовления. База хранится в
+        <code>data/recipes.json</code> и пополняется без правок кода.
+      </p>
+      <p class="recipes-count" role="status" aria-live="polite" data-count>10 рецептов</p>
+    </section>
+
+    <section class="recipes-browser" aria-labelledby="browser-title">
+      <h2 id="browser-title" class="visually-hidden">Выбор рецепта</h2>
+
+      <form class="filters" role="search" data-filters hidden>
+        <div class="filter-row">
+          <p class="field field-select">
+            <label class="visually-hidden" for="recipe-select">Название блюда</label>
+            <select id="recipe-select" data-select>
+              <option value="">— выберите блюдо —</option>
+            </select>
+          </p>
+          <p class="field">
+            <label class="visually-hidden" for="recipe-search">Поиск по рецептам</label>
+            <input id="recipe-search" type="search" placeholder="Поиск: название или ингредиент…"
+                   autocomplete="off" data-search>
+          </p>
+          <button class="reset" type="button" data-reset hidden>Сбросить</button>
+        </div>
+        <div class="chips" role="group" aria-label="Категория блюд" data-chips></div>
+      </form>
+
+      <noscript>
+        <p class="noscript-note">
+          Для выбора рецепта нужен JavaScript. Сама база лежит в
+          <code>data/recipes.json</code> — её можно открыть и без страницы.
+        </p>
+      </noscript>
+
+      <p class="error" data-error hidden></p>
+
+      <ul class="recipe-grid" data-grid></ul>
+
+      <p class="empty" data-empty hidden>
+        Ничего не найдено. Попробуйте другое слово или сбросьте фильтры.
+        <button class="reset reset-inline" type="button" data-reset>Сбросить</button>
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span data-year>2026</span> holiday_vault · база рецептов</p>
+    <p class="footer-note">
+      Канонические данные — в <code>data/recipes.json</code>; для работы
+      по <code>file://</code> рядом лежит сгенерированный
+      <code>data/recipes.bundle.js</code>.
+    </p>
+  </footer>
+
+</div>
+
+<dialog class="recipe-dialog" data-dialog aria-labelledby="recipe-dialog-title">
+  <div class="dialog-bar">
+    <p class="dialog-kicker" data-dialog-category></p>
+    <button class="dialog-close" type="button" data-close aria-label="Закрыть рецепт">✕</button>
+  </div>
+  <div class="dialog-body">
+    <h2 class="dialog-title" id="recipe-dialog-title" data-dialog-title></h2>
+    <p class="dialog-desc" data-dialog-desc></p>
+    <dl class="dialog-meta" data-dialog-meta></dl>
+
+    <h3 class="dialog-sub">Состав</h3>
+    <table class="ingredients">
+      <thead>
+        <tr>
+          <th scope="col">Продукт</th>
+          <th scope="col" class="ing-amount">Количество</th>
+        </tr>
+      </thead>
+      <tbody data-dialog-ingredients></tbody>
+    </table>
+
+    <h3 class="dialog-sub">Приготовление</h3>
+    <ol class="steps" data-dialog-steps></ol>
+
+    <p class="dialog-tip" data-dialog-tip hidden></p>
+    <p class="dialog-storage" data-dialog-storage hidden></p>
+    <p class="dialog-allergens" data-dialog-allergens hidden></p>
+  </div>
+  <div class="dialog-foot">
+    <button class="btn" type="button" data-print>Печать</button>
+    <button class="btn btn-primary" type="button" data-close>Закрыть</button>
+  </div>
+</dialog>
+
+</body>
+</html>
