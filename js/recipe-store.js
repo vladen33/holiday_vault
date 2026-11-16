@@ -11,7 +11,8 @@
    API после load():
      RecipeStore.all() / get(id) / byIds([...]),
      RecipeStore.categories() / categoryById(id) / holidays() / holidayById(id),
-     RecipeStore.query({ query, category, holiday }),
+     RecipeStore.cuisines() / cuisineById(id),
+     RecipeStore.query({ query, category, holiday, cuisine }),
      RecipeStore.formatAmount(ingredient) / formatTime(min) / totalTime(recipe),
      RecipeStore.plural(n, ['рецепт', 'рецепта', 'рецептов']),
      RecipeStore.difficultyLabel(value)
@@ -118,6 +119,20 @@
     return null;
   }
 
+  function cuisines() {
+    return (current().cuisines || []).slice();
+  }
+
+  function cuisineById(id) {
+    var list = current().cuisines || [];
+    for (var i = 0; i < list.length; i += 1) {
+      if (list[i].id === id) {
+        return list[i];
+      }
+    }
+    return null;
+  }
+
   function get(id) {
     var list = current().recipes || [];
     for (var i = 0; i < list.length; i += 1) {
@@ -138,6 +153,10 @@
     if (category) {
       parts.push(category.title);
     }
+    var cuisine = cuisineById(recipe.cuisine);
+    if (cuisine) {
+      parts.push(cuisine.title);
+    }
     (recipe.tags || []).forEach(function (tag) {
       parts.push(tag);
     });
@@ -157,6 +176,7 @@
     var opts = options || {};
     var category = opts.category || 'all';
     var holiday = opts.holiday || 'all';
+    var cuisine = opts.cuisine || 'all';
     var text = normalize(opts.query);
 
     return all().filter(function (recipe) {
@@ -164,6 +184,9 @@
         return false;
       }
       if (holiday !== 'all' && (recipe.holidays || []).indexOf(holiday) === -1) {
+        return false;
+      }
+      if (cuisine !== 'all' && recipe.cuisine !== cuisine) {
         return false;
       }
       return !text || searchText(recipe).indexOf(text) !== -1;
@@ -174,6 +197,14 @@
     var counts = {};
     all().forEach(function (recipe) {
       counts[recipe.category] = (counts[recipe.category] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function countByCuisine() {
+    var counts = {};
+    all().forEach(function (recipe) {
+      counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1;
     });
     return counts;
   }
@@ -234,6 +265,9 @@
     countByCategory: countByCategory,
     holidays: holidays,
     holidayById: holidayById,
+    cuisines: cuisines,
+    cuisineById: cuisineById,
+    countByCuisine: countByCuisine,
     query: query,
     searchText: searchText,
     normalize: normalize,

@@ -8,6 +8,9 @@
 двойным кликом (file://), поэтому рядом с канонической базой лежит
 сгенерированный бандл с тем же содержимым в виде window.RECIPE_DB.
 Правим только data/recipes.json, бандл собирается этим скриптом.
+
+Проверяются также кухня (cuisine) и обязательный вес готового блюда (yield)
+в формате «450 г» или «1,2 кг».
 """
 
 import json
@@ -21,15 +24,19 @@ BUNDLE_PATH = ROOT / "data" / "recipes.bundle.js"
 
 SLUG = re.compile(r"^[a-z0-9_-]+$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+WEIGHT = re.compile(r"^\d+(?:[.,]\d+)?\s(?:г|кг)$")
 DIFFICULTY = {"easy", "medium", "hard"}
-TOP_KEYS = {"schemaVersion", "title", "updated", "categories", "holidays", "recipes"}
+TOP_KEYS = {
+    "schemaVersion", "title", "updated", "categories", "holidays",
+    "cuisines", "recipes",
+}
 RECIPE_KEYS = {
-    "id", "title", "category", "holidays", "tags", "description", "servings",
-    "yield", "time", "difficulty", "allergens", "storage", "ingredients",
-    "steps", "tips", "image",
+    "id", "title", "category", "cuisine", "holidays", "tags", "description",
+    "servings", "yield", "time", "difficulty", "allergens", "storage",
+    "ingredients", "steps", "tips", "image",
 }
 OPTIONAL_RECIPE_KEYS = {
-    "tags", "difficulty", "allergens", "storage", "tips", "image", "yield",
+    "tags", "difficulty", "allergens", "storage", "tips", "image",
 }
 INGREDIENT_KEYS = {"name", "amount", "unit", "note"}
 
@@ -49,14 +56,17 @@ def validate(data):
     for key in sorted(set(data) - TOP_KEYS):
         warnings.append(f"неизвестное поле верхнего уровня «{key}»")
 
-    if not is_int(data.get("schemaVersion")) or data.get("schemaVersion", 0) < 1:
-        errors.append("schemaVersion должен быть целым числом >= 1")
+    if not is_int(data.get("schemaVersion")) or data.get("schemaVersion", 0) < 2:
+        errors.append("schemaVersion должен быть целым числом >= 2")
     if not DATE.match(str(data.get("updated", ""))):
         errors.append("updated должен быть в формате ГГГГ-ММ-ДД")
+    if not str(data.get("title", "")).strip():
+        errors.append("пустой title")
 
     categories = data.get("categories")
     holidays = data.get("holidays")
-    category_ids, holiday_ids = set(), set()
+    cuisines = data.get("cuisines")
+    category_ids, holiday_ids, cuisine_ids = set(), set(), set()
 
     if not isinstance(categories, list) or not categories:
         errors.append("categories должен быть непустым массивом")
@@ -94,6 +104,24 @@ def validate(data):
         if not str(holiday.get("title", "")).strip():
             errors.append(f"{where}: пустой title")
 
+    if not isinstance(cuisines, list) or not cuisines:
+        errors.append("cuisines должен быть непустым массивом")
+        cuisines = []
+    for index, cuisine in enumerate(cuisines):
+        where = f"cuisines[{index}]"
+        if not isinstance(cuisine, dict):
+            errors.append(f"{where}: должен быть объектом")
+            continue
+        cuid = cuisine.get("id")
+        if not isinstance(cuid, str) or not SLUG.match(cuid):
+            errors.append(f"{where}: id должен быть латиницей в нижнем регистре")
+        elif cuid in cuisine_ids:
+            errors.append(f"{where}: повторяется id «{cuid}»")
+        else:
+            cuisine_ids.add(cuid)
+        if not str(cuisine.get("title", "")).strip():
+            errors.append(f"{where}: пустой title")
+
     recipes = data.get("recipes")
     if not isinstance(recipes, list) or not recipes:
         errors.append("recipes должен быть непустым массивом")
@@ -101,12 +129,17 @@ def validate(data):
 
     recipe_ids = set()
     for index, recipe in enumerate(recipes):
-        errors.extend(check_recipe(recipe, index, category_ids, holiday_ids, recipe_ids, warnings))
+        errors.extend(
+            check_recipe(
+                recipe, index, category_ids, holiday_ids, cuisine_ids,
+                recipe_ids, warnings,
+            )
+        )
 
     return errors, warnings
 
 
-def check_recipe(recipe, index, category_ids, holiday_ids, recipe_ids, warnings):
+def check_recipe(recipe, index, category_ids, holiday_ids, cuisine_ids, recipe_ids, warnings):
     errors = []
     where = f"recipes[{index}]"
 
@@ -134,9 +167,22 @@ def check_recipe(recipe, index, category_ids, holiday_ids, recipe_ids, warnings)
     if recipe.get("category") not in category_ids:
         errors.append(f"{where}: категория «{recipe.get('category')}» отсутствует в categories")
 
-    for hid in recipe.get("holidays") or []:
+    if recipe.get("cuisine") not in cuisine_ids:
+        errors.append(f"{where}: кухня «{recipe.get('cuisine')}» отсутствует в cuisines")
+
+    holidays = recipe.get("holidays")
+    if not isinstance(holidays, list):
+        errors.append(f"{where}: holidays должен быть массивом")
+        holidays = []
+    for hid in holidays:
         if hid not in holiday_ids:
             errors.append(f"{where}: праздник «{hid}» отсутствует в holidays")
+
+    yield_value = recipe.get("yield")
+    if not isinstance(yield_value, str) or not WEIGHT.match(yield_value):
+        errors.append(
+            f"{where}: yield должен быть весом готового блюда в формате «450 г» или «1,2 кг»"
+        )
 
     servings = recipe.get("servings")
     if not is_int(servings) or servings < 1:
@@ -159,6 +205,10 @@ def check_recipe(recipe, index, category_ids, holiday_ids, recipe_ids, warnings)
         value = recipe.get(list_key)
         if value is not None and not isinstance(value, list):
             errors.append(f"{where}: {list_key} должен быть массивом")
+        elif value is not None:
+            for item in value:
+                if not isinstance(item, str) or not item.strip():
+                    errors.append(f"{where}: {list_key} должен содержать непустые строки")
 
     errors.extend(check_ingredients(recipe, where, warnings))
     errors.extend(check_steps(recipe, where))
@@ -238,7 +288,22 @@ def main(argv):
     recipes = data["recipes"]
     ingredients = sum(len(recipe.get("ingredients", [])) for recipe in recipes)
     steps = sum(len(recipe.get("steps", [])) for recipe in recipes)
-    print(f"✓ JSON валиден: рецептов {len(recipes)}, ингредиентов {ingredients}, шагов {steps}")
+    categories = {}
+    cuisines = {}
+    for recipe in recipes:
+        categories[recipe["category"]] = categories.get(recipe["category"], 0) + 1
+        cuisines[recipe["cuisine"]] = cuisines.get(recipe["cuisine"], 0) + 1
+    print(
+        f"✓ JSON валиден: рецептов {len(recipes)}, ингредиентов {ingredients}, шагов {steps}"
+    )
+    print(
+        "  категории: "
+        + ", ".join(f"{key}={value}" for key, value in sorted(categories.items()))
+    )
+    print(
+        "  кухни: "
+        + ", ".join(f"{key}={value}" for key, value in sorted(cuisines.items()))
+    )
 
     bundle = build_bundle(data)
 

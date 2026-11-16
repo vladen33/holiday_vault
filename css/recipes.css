@@ -33,34 +33,341 @@
   margin-top: clamp(1.4rem, 3vw, 2rem);
 }
 
-/* Селект быстрого выбора */
+/* Код подборки */
 
-.field-select {
-  flex: 1 1 280px;
+.code-panel {
+  margin: 0 0 1rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(160deg, #ffffff 0%, #fbfdfb 65%, var(--sage-soft) 100%);
+  border: 1px solid var(--brand-line);
+  border-radius: var(--radius);
+  box-shadow: var(--brand-shadow);
 }
 
-select {
-  width: 100%;
-  min-height: 46px;
-  padding: 0.5rem 2.4rem 0.5rem 1rem;
-  font: inherit;
+.code-panel-head h2 {
+  margin: 0 0 0.15rem;
+  font-size: 1.05rem;
   color: var(--text);
-  cursor: pointer;
-  background-color: var(--surface);
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
-    linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
-  background-position: calc(100% - 18px) 21px, calc(100% - 12px) 21px;
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
+}
+
+.code-panel-head p {
+  margin: 0 0 0.7rem;
+  font-size: 0.86rem;
+  color: var(--text-soft);
+}
+
+.code-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.code-form input {
+  flex: 1 1 320px;
+  min-height: 46px;
+  padding: 0.55rem 1rem;
+  font: 0.92rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--text);
+  background: var(--surface);
   border: 1px solid var(--brand-line);
   border-radius: 999px;
   box-shadow: inset 0 1px 2px rgba(43, 58, 66, 0.05);
-  appearance: none;
 }
 
-select:focus-visible {
+.code-form input:focus-visible {
   border-color: var(--blue-deep);
+}
+
+.code-status {
+  min-height: 1.3rem;
+  margin: 0.45rem 0 0;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+
+.code-status.is-error,
+.copy-status.is-error {
+  color: var(--rose-deep);
+}
+
+.code-status.is-ok,
+.copy-status.is-ok {
+  color: var(--sage-deep);
+}
+
+/* Переключатель режимов */
+
+.view-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1rem 0 0;
+  padding: 0.3rem;
+  background: var(--sage-soft);
+  border: 1px solid #d3e0d5;
+  border-radius: 999px;
+}
+
+.view-tab {
+  min-height: 44px;
+  padding: 0.35rem 1rem;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+}
+
+.view-tab:hover {
+  color: var(--text);
+}
+
+.view-tab.is-active {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--brand-line);
+  box-shadow: 0 2px 8px rgba(43, 58, 66, 0.08);
+}
+
+.view-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.55em;
+  min-height: 1.55em;
+  margin-left: 0.15rem;
+  padding: 0 0.35em;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--sage-deep);
+  border-radius: 999px;
+}
+
+.view-tab.is-active .view-badge {
+  background: var(--blue-deep);
+}
+
+/* Панель выбора рецептов чекбоксами */
+
+.picker {
+  margin: 1rem 0 0;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: var(--radius);
+  box-shadow: var(--brand-shadow);
+  overflow: hidden;
+}
+
+.picker-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, #ffffff, #f8fbf7);
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.picker-head h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.picker-count {
+  margin: 0.15rem 0 0;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+
+.picker-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.btn.btn-small {
+  min-height: 44px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.picker-scroll {
+  max-height: min(46vh, 430px);
+  padding: 0.25rem 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.picker-group-title {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--sage-deep);
+  background: #f7f9f6;
+  border-top: 1px solid var(--brand-line);
+  border-bottom: 1px solid var(--brand-line);
+}
+
+.picker-group:first-child .picker-group-title {
+  border-top: 0;
+}
+
+.picker-group-count {
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  color: var(--text-soft);
+}
+
+.picker-items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.picker-item {
+  border-bottom: 1px solid #eef1ed;
+}
+
+.picker-item:last-child {
+  border-bottom: 0;
+}
+
+.picker-item:has(input:checked) {
+  background: var(--sage-soft);
+}
+
+.picker-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  min-height: 54px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.picker-label:hover {
+  background: #fbfdfb;
+}
+
+.picker-item:has(input:checked) .picker-label:hover {
+  background: var(--sage-soft);
+}
+
+.picker-label:focus-within {
+  outline: 2px solid var(--blue-deep);
+  outline-offset: -2px;
+}
+
+.picker-label input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0.15rem 0 0;
+  accent-color: var(--sage-deep);
+  cursor: pointer;
+}
+
+.picker-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.picker-title {
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.picker-meta {
+  font-size: 0.76rem;
+  color: var(--text-soft);
+}
+
+/* Код выбранной подборки */
+
+.selection-code {
+  margin: 1rem 0 0;
+  padding: 1rem 1.1rem;
+  background: var(--sand-soft);
+  border: 1px solid #e7d8ba;
+  border-radius: var(--radius);
+}
+
+.selection-code-head h2 {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.selection-code-head p {
+  margin: 0 0 0.7rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.code-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.code-output {
+  flex: 1 1 300px;
+  min-height: 46px;
+  padding: 0.55rem 1rem;
+  font: 0.9rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid #e7d8ba;
+  border-radius: 12px;
+}
+
+.copy-status {
+  min-height: 1.3rem;
+  margin: 0.45rem 0 0;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+
+/* Заголовок результатов */
+
+.results {
+  margin-top: 1.1rem;
+}
+
+.results-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+}
+
+.results-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text);
 }
 
 /* Сетка рецептов */
@@ -385,6 +692,44 @@ select:focus-visible {
    -------------------------------------------------------------------------- */
 
 @media (max-width: 640px) {
+  .code-form input,
+  .code-output {
+    flex-basis: 100%;
+  }
+
+  .code-form .btn,
+  .code-row .btn {
+    flex: 1 1 100%;
+  }
+
+  .view-switch {
+    width: 100%;
+  }
+
+  .view-tab {
+    flex: 1 1 auto;
+  }
+
+  .picker-head {
+    padding: 0.8rem;
+  }
+
+  .picker-scroll {
+    max-height: 56vh;
+  }
+
+  .picker-actions {
+    width: 100%;
+  }
+
+  .picker-actions .btn {
+    flex: 1 1 140px;
+  }
+
+  .picker-label {
+    padding: 0.5rem 0.8rem;
+  }
+
   .recipe-card {
     gap: 0.7rem;
     padding: 0.9rem;

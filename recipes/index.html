@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Рецепты праздничного стола — holiday_vault</title>
-<meta name="description" content="База рецептов праздничного стола: 10 салатов на Новый год с составом, граммовками и пошаговым приготовлением. Данные хранятся в JSON.">
+<meta name="description" content="База рецептов праздничного стола: 115 блюд русской, европейской и кавказской кухни с составом, граммовками, весом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
 <meta name="theme-color" content="#fdfcf9">
 <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/base.css">
@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="../css/recipes.css">
 <script src="../data/recipes.bundle.js" defer></script>
 <script src="../js/recipe-store.js" defer></script>
+<script src="../js/selection-code.js" defer></script>
 <script src="../js/recipes.js" defer></script>
 </head>
 <body>
@@ -38,27 +39,46 @@
       <p class="eyebrow">Праздничный стол</p>
       <h1 id="page-title">Рецепты праздничного стола</h1>
       <p class="lead">
-        Выберите блюдо в списке или в карточках — откроется состав
-        с граммовками и порядок приготовления. База хранится в
-        <code>data/recipes.json</code> и пополняется без правок кода.
+        Выберите все рецепты сплошным списком или отметьте чекбоксами только
+        нужные блюда. Для подборки автоматически формируется код: скопируйте
+        ссылку и отправьте её другу — он увидит тот же набор. База хранится
+        в <code>data/recipes.json</code> и пополняется без правок кода.
       </p>
-      <p class="recipes-count" role="status" aria-live="polite" data-count>10 рецептов</p>
+      <p class="recipes-count">115 рецептов</p>
     </section>
 
     <section class="recipes-browser" aria-labelledby="browser-title">
       <h2 id="browser-title" class="visually-hidden">Выбор рецепта</h2>
 
+      <section class="code-panel" aria-labelledby="code-title" hidden>
+        <div class="code-panel-head">
+          <h2 id="code-title">Код подборки</h2>
+          <p>Вставьте код, чтобы открыть сохранённый набор рецептов.</p>
+        </div>
+        <form class="code-form" data-code-form>
+          <label class="visually-hidden" for="code-input">Код подборки</label>
+          <input id="code-input" type="text" placeholder="HV1-…" autocomplete="off"
+                 spellcheck="false" data-code-input>
+          <button class="btn btn-primary" type="submit" data-code-apply>Применить</button>
+        </form>
+        <p class="code-status" role="status" aria-live="polite" data-code-status></p>
+      </section>
+
+      <div class="view-switch" role="group" aria-label="Режим просмотра" data-view-switch hidden>
+        <button class="view-tab is-active" type="button" data-mode="all" aria-pressed="true">
+          Все рецепты
+        </button>
+        <button class="view-tab" type="button" data-mode="selected" aria-pressed="false">
+          Выбранные <span class="view-badge" data-selected-badge>0</span>
+        </button>
+      </div>
+
       <form class="filters" role="search" data-filters hidden>
         <div class="filter-row">
-          <p class="field field-select">
-            <label class="visually-hidden" for="recipe-select">Название блюда</label>
-            <select id="recipe-select" data-select>
-              <option value="">— выберите блюдо —</option>
-            </select>
-          </p>
           <p class="field">
             <label class="visually-hidden" for="recipe-search">Поиск по рецептам</label>
-            <input id="recipe-search" type="search" placeholder="Поиск: название или ингредиент…"
+            <input id="recipe-search" type="search"
+                   placeholder="Поиск: название, ингредиент, кухня…"
                    autocomplete="off" data-search>
           </p>
           <button class="reset" type="button" data-reset hidden>Сбросить</button>
@@ -73,14 +93,49 @@
         </p>
       </noscript>
 
-      <p class="error" data-error hidden></p>
+      <section class="picker" data-picker hidden aria-labelledby="picker-title">
+        <div class="picker-head">
+          <div>
+            <h2 id="picker-title">Выберите блюда</h2>
+            <p class="picker-count" data-picker-count></p>
+          </div>
+          <div class="picker-actions">
+            <button class="btn btn-small" type="button" data-select-visible>Выбрать найденные</button>
+            <button class="btn btn-small" type="button" data-clear-selection>Снять все</button>
+          </div>
+        </div>
+        <div class="picker-scroll" data-picker-list></div>
+      </section>
 
-      <ul class="recipe-grid" data-grid></ul>
+      <section class="selection-code" data-code-box hidden aria-labelledby="selection-code-title">
+        <div class="selection-code-head">
+          <h2 id="selection-code-title">Код этой подборки</h2>
+          <p>Скопируйте код или ссылку — по ссылке откроется тот же набор рецептов.</p>
+        </div>
+        <div class="code-row">
+          <label class="visually-hidden" for="code-output">Код выбранной подборки</label>
+          <input id="code-output" class="code-output" type="text" readonly data-code-output>
+          <button class="btn" type="button" data-copy-code>Скопировать код</button>
+          <button class="btn btn-primary" type="button" data-copy-link>Скопировать ссылку</button>
+        </div>
+        <p class="copy-status" role="status" aria-live="polite" data-copy-status></p>
+      </section>
 
-      <p class="empty" data-empty hidden>
-        Ничего не найдено. Попробуйте другое слово или сбросьте фильтры.
-        <button class="reset reset-inline" type="button" data-reset>Сбросить</button>
-      </p>
+      <section class="results" aria-labelledby="results-title">
+        <div class="results-head">
+          <h2 id="results-title" data-results-title>Все рецепты</h2>
+          <p class="recipes-count" role="status" aria-live="polite" data-count>115 рецептов</p>
+        </div>
+
+        <p class="error" data-error hidden></p>
+
+        <ul class="recipe-grid" data-grid></ul>
+
+        <p class="empty" data-empty hidden>
+          <span data-empty-text>Ничего не найдено. Попробуйте другое слово или сбросьте фильтры.</span>
+          <button class="reset reset-inline" type="button" data-reset data-reset-empty>Сбросить</button>
+        </p>
+      </section>
     </section>
 
   </main>
