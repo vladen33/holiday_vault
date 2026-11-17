@@ -6,7 +6,7 @@
 var assert = require('assert');
 var SelectionCode = require('../js/selection-code.js');
 
-// Базовый набор 115 — проверка старых кодов; ниже отдельно проверяется 265.
+// Базовый набор 115 — проверка старых кодов; ниже отдельно проверяется 400.
 var all = [];
 for (var i = 0; i < 115; i += 1) {
   all.push('recipe-' + i);
@@ -51,12 +51,12 @@ assert.strictEqual(shortened.ok, true);
 assert.strictEqual(shortened.missing, 1);
 
 var wide = [];
-for (var j = 0; j < 265; j += 1) {
+for (var j = 0; j < 400; j += 1) {
   wide.push('wide-' + j);
 }
-var wideCode = SelectionCode.encode([wide[0], wide[264]], wide);
+var wideCode = SelectionCode.encode([wide[0], wide[399]], wide);
 var wideResult = SelectionCode.decode(wideCode, wide);
 assert.strictEqual(wideResult.ok, true);
-assert.deepStrictEqual(wideResult.ids, [wide[0], wide[264]]);
+assert.deepStrictEqual(wideResult.ids, [wide[0], wide[399]]);
 
 console.log('✓ selection-code: все проверки пройдены');

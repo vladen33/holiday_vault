@@ -124,7 +124,6 @@
       return recipe.id;
     });
 
-    buildFilters();
     bindEvents();
 
     setMode('all', true);
@@ -167,47 +166,85 @@
     });
   }
 
-  function buildFilters() {
-    var categoryCounts = RecipeStore.countByCategory();
-    var cuisineCounts = RecipeStore.countByCuisine();
+  function buildFilterOptions() {
+    var cuisineSource = RecipeStore.query({
+      query: state.query,
+      category: state.category,
+      cuisine: 'all'
+    });
+    var cuisineCounts = {};
+    cuisineSource.forEach(function (recipe) {
+      cuisineCounts[recipe.cuisine] = (cuisineCounts[recipe.cuisine] || 0) + 1;
+    });
+
+    var categorySource = RecipeStore.query({
+      query: state.query,
+      category: 'all',
+      cuisine: state.cuisine
+    });
+    var categoryCounts = {};
+    categorySource.forEach(function (recipe) {
+      categoryCounts[recipe.category] = (categoryCounts[recipe.category] || 0) + 1;
+    });
 
     refs.categorySelect.textContent = '';
-    refs.categorySelect.appendChild(option('all', 'Все типы блюд'));
+    refs.categorySelect.appendChild(
+      option('all', 'Все типы блюд · ' + categorySource.length)
+    );
     RecipeStore.categories().forEach(function (category) {
       var count = categoryCounts[category.id] || 0;
-      if (count) {
-        refs.categorySelect.appendChild(
-          option(category.id, category.title + ' · ' + count)
-        );
-      }
+      refs.categorySelect.appendChild(
+        option(category.id, category.title + ' · ' + count, count === 0 && state.category !== category.id)
+      );
     });
-    refs.categorySelect.value = state.category;
 
     refs.cuisineSelect.textContent = '';
-    refs.cuisineSelect.appendChild(option('all', 'Все кухни'));
+    refs.cuisineSelect.appendChild(
+      option('all', 'Все кухни · ' + cuisineSource.length)
+    );
     RecipeStore.cuisines().forEach(function (cuisine) {
       var count = cuisineCounts[cuisine.id] || 0;
-      if (count) {
-        var label = cuisine.title.replace(/\s+кухня$/i, '');
-        refs.cuisineSelect.appendChild(option(cuisine.id, label + ' · ' + count));
-      }
+      var label = cuisine.title.replace(/\s+кухня$/i, '');
+      refs.cuisineSelect.appendChild(
+        option(cuisine.id, label + ' · ' + count, count === 0 && state.cuisine !== cuisine.id)
+      );
     });
+
+    refs.categorySelect.value = state.category;
     refs.cuisineSelect.value = state.cuisine;
   }
 
-  function option(value, label) {
+  function option(value, label, disabled) {
     var node = el('option', '', label);
     node.value = value;
+    node.disabled = !!disabled;
     return node;
   }
 
-  function updateFilterControls() {
-    if (refs.categorySelect) {
-      refs.categorySelect.value = state.category;
+  function hasRecipes(category, cuisine) {
+    return RecipeStore.query({
+      query: '',
+      category: category,
+      cuisine: cuisine
+    }).length > 0;
+  }
+
+  function onCategoryChange() {
+    state.category = refs.categorySelect.value || 'all';
+    if (state.category !== 'all' && state.cuisine !== 'all'
+        && !hasRecipes(state.category, state.cuisine)) {
+      state.cuisine = 'all';
     }
-    if (refs.cuisineSelect) {
-      refs.cuisineSelect.value = state.cuisine;
+    render();
+  }
+
+  function onCuisineChange() {
+    state.cuisine = refs.cuisineSelect.value || 'all';
+    if (state.cuisine !== 'all' && state.category !== 'all'
+        && !hasRecipes(state.category, state.cuisine)) {
+      state.category = 'all';
     }
+    render();
   }
 
   function render() {
@@ -240,9 +277,9 @@
       showEmpty(list.length === 0, true, filtered);
     }
 
+    buildFilterOptions();
     updateBadge();
     updateSelectionControls();
-    updateFilterControls();
     updateResets(filtered);
   }
 
@@ -896,17 +933,11 @@
     }
 
     if (refs.categorySelect) {
-      refs.categorySelect.addEventListener('change', function () {
-        state.category = refs.categorySelect.value || 'all';
-        render();
-      });
+      refs.categorySelect.addEventListener('change', onCategoryChange);
     }
 
     if (refs.cuisineSelect) {
-      refs.cuisineSelect.addEventListener('change', function () {
-        state.cuisine = refs.cuisineSelect.value || 'all';
-        render();
-      });
+      refs.cuisineSelect.addEventListener('change', onCuisineChange);
     }
 
     refs.modeButtons.forEach(function (button) {
