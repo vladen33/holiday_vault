@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Рецепты праздничного стола — Праздники события</title>
-<meta name="description" content="База рецептов праздничного стола: 115 блюд русской, европейской и кавказской кухни с составом, граммовками, весом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
+<meta name="description" content="База рецептов праздничного стола: 265 блюд шести кухонь с составом, граммовками, весом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
 <meta name="theme-color" content="#fdfcf9">
 <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/base.css">
@@ -39,12 +39,14 @@
       <p class="eyebrow">Праздничный стол</p>
       <h1 id="page-title">Рецепты праздничного стола</h1>
       <p class="lead">
-        Выберите все рецепты сплошным списком или отметьте чекбоксами только
-        нужные блюда. Для подборки автоматически формируется код: скопируйте
+        В базе 265 блюд шести кухонь: русской, европейской, кавказской,
+        среднеазиатской, ближневосточной и балканской. Выберите все рецепты
+        или отметьте нужные звездой на карточке — они появятся во вкладке
+        «Выбранные». Для подборки автоматически формируется код: скопируйте
         ссылку и отправьте её другу — он увидит тот же набор. База хранится
         в <code>data/recipes.json</code> и пополняется без правок кода.
       </p>
-      <p class="recipes-count">115 рецептов</p>
+      <p class="recipes-count">265 рецептов</p>
     </section>
 
     <section class="recipes-browser" aria-labelledby="browser-title">
@@ -64,12 +66,17 @@
         <p class="code-status" role="status" aria-live="polite" data-code-status></p>
       </section>
 
-      <div class="view-switch" role="group" aria-label="Режим просмотра" data-view-switch hidden>
-        <button class="view-tab is-active" type="button" data-mode="all" aria-pressed="true">
-          Все рецепты
-        </button>
-        <button class="view-tab" type="button" data-mode="selected" aria-pressed="false">
-          Выбранные <span class="view-badge" data-selected-badge>0</span>
+      <div class="view-row" data-view-switch hidden>
+        <div class="view-switch" role="group" aria-label="Режим просмотра">
+          <button class="view-tab is-active" type="button" data-mode="all" aria-pressed="true">
+            Все рецепты
+          </button>
+          <button class="view-tab" type="button" data-mode="selected" aria-pressed="false">
+            Выбранные <span class="view-badge" data-selected-badge>0</span>
+          </button>
+        </div>
+        <button class="reset selection-reset" type="button" data-clear-selection hidden>
+          Сбросить выбранные
         </button>
       </div>
 
@@ -83,7 +90,16 @@
           </p>
           <button class="reset" type="button" data-reset hidden>Сбросить</button>
         </div>
-        <div class="chips" role="group" aria-label="Категория блюд" data-chips></div>
+        <div class="filter-selects">
+          <p class="filter-select">
+            <label for="cuisine-filter">Кухня</label>
+            <select id="cuisine-filter" data-cuisine-filter></select>
+          </p>
+          <p class="filter-select">
+            <label for="category-filter">Тип блюда</label>
+            <select id="category-filter" data-category-filter></select>
+          </p>
+        </div>
       </form>
 
       <noscript>
@@ -92,20 +108,6 @@
           <code>data/recipes.json</code> — её можно открыть и без страницы.
         </p>
       </noscript>
-
-      <section class="picker" data-picker hidden aria-labelledby="picker-title">
-        <div class="picker-head">
-          <div>
-            <h2 id="picker-title">Выберите блюда</h2>
-            <p class="picker-count" data-picker-count></p>
-          </div>
-          <div class="picker-actions">
-            <button class="btn btn-small" type="button" data-select-visible>Выбрать найденные</button>
-            <button class="btn btn-small" type="button" data-clear-selection>Снять все</button>
-          </div>
-        </div>
-        <div class="picker-scroll" data-picker-list></div>
-      </section>
 
       <section class="selection-code" data-code-box hidden aria-labelledby="selection-code-title">
         <div class="selection-code-head">
@@ -124,7 +126,7 @@
       <section class="results" aria-labelledby="results-title">
         <div class="results-head">
           <h2 id="results-title" data-results-title>Все рецепты</h2>
-          <p class="recipes-count" role="status" aria-live="polite" data-count>115 рецептов</p>
+          <p class="recipes-count" role="status" aria-live="polite" data-count>265 рецептов</p>
         </div>
 
         <p class="error" data-error hidden></p>
@@ -154,7 +156,16 @@
 <dialog class="recipe-dialog" data-dialog aria-labelledby="recipe-dialog-title">
   <div class="dialog-bar">
     <p class="dialog-kicker" data-dialog-category></p>
-    <button class="dialog-close" type="button" data-close aria-label="Закрыть рецепт">✕</button>
+    <div class="dialog-actions">
+      <button class="dialog-select" type="button" data-select-recipe=""
+              aria-pressed="false" aria-label="Добавить в выбранные">
+        <svg class="star-icon" viewBox="0 0 24 24" width="22" height="22"
+             aria-hidden="true" focusable="false">
+          <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>
+        </svg>
+      </button>
+      <button class="dialog-close" type="button" data-close aria-label="Закрыть рецепт">✕</button>
+    </div>
   </div>
   <div class="dialog-body">
     <h2 class="dialog-title" id="recipe-dialog-title" data-dialog-title></h2>

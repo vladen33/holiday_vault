@@ -10,7 +10,7 @@
 Правим только data/recipes.json, бандл собирается этим скриптом.
 
 Проверяются также кухня (cuisine) и обязательный вес готового блюда (yield)
-в формате «450 г» или «1,2 кг».
+в формате «450 г», «1,2 кг» или «250 мл».
 """
 
 import json
@@ -24,7 +24,7 @@ BUNDLE_PATH = ROOT / "data" / "recipes.bundle.js"
 
 SLUG = re.compile(r"^[a-z0-9_-]+$")
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-WEIGHT = re.compile(r"^\d+(?:[.,]\d+)?\s(?:г|кг)$")
+WEIGHT = re.compile(r"^\d+(?:[.,]\d+)?\s(?:г|кг|мл|л)$")
 DIFFICULTY = {"easy", "medium", "hard"}
 TOP_KEYS = {
     "schemaVersion", "title", "updated", "categories", "holidays",
@@ -181,7 +181,7 @@ def check_recipe(recipe, index, category_ids, holiday_ids, cuisine_ids, recipe_i
     yield_value = recipe.get("yield")
     if not isinstance(yield_value, str) or not WEIGHT.match(yield_value):
         errors.append(
-            f"{where}: yield должен быть весом готового блюда в формате «450 г» или «1,2 кг»"
+            f"{where}: yield должен быть весом или объёмом готового блюда в формате «450 г», «1,2 кг» или «250 мл»"
         )
 
     servings = recipe.get("servings")

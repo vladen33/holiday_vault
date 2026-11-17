@@ -96,7 +96,16 @@
   color: var(--sage-deep);
 }
 
-/* Переключатель режимов */
+/* Переключатель режимов и сброс выбранных */
+
+.view-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+}
 
 .view-switch {
   display: flex;
@@ -104,11 +113,14 @@
   gap: 0.3rem;
   width: fit-content;
   max-width: 100%;
-  margin: 1rem 0 0;
   padding: 0.3rem;
   background: var(--sage-soft);
   border: 1px solid #d3e0d5;
   border-radius: 999px;
+}
+
+.selection-reset {
+  margin-left: auto;
 }
 
 .view-tab {
@@ -153,154 +165,57 @@
   background: var(--blue-deep);
 }
 
-/* Панель выбора рецептов чекбоксами */
+/* Фильтры кухни и типа блюда */
 
-.picker {
-  margin: 1rem 0 0;
-  background: var(--surface);
-  border: 1px solid var(--brand-line);
-  border-radius: var(--radius);
-  box-shadow: var(--brand-shadow);
-  overflow: hidden;
+.filter-selects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
 }
 
-.picker-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem 1rem;
-  padding: 0.9rem 1rem;
-  background: linear-gradient(180deg, #ffffff, #f8fbf7);
-  border-bottom: 1px solid var(--brand-line);
-}
-
-.picker-head h2 {
+.filter-select {
   margin: 0;
-  font-size: 1.05rem;
-  color: var(--text);
 }
 
-.picker-count {
-  margin: 0.15rem 0 0;
-  font-size: 0.84rem;
-  color: var(--text-soft);
-}
-
-.picker-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  align-items: center;
-}
-
-.btn.btn-small {
-  min-height: 44px;
-  padding: 0.3rem 0.85rem;
-  font-size: 0.82rem;
-}
-
-.picker-scroll {
-  max-height: min(46vh, 430px);
-  padding: 0.25rem 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.picker-group-title {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.8rem;
-  margin: 0;
-  padding: 0.5rem 1rem;
+.filter-select label {
+  display: block;
+  margin-bottom: 0.25rem;
   font-size: 0.76rem;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--sage-deep);
-  background: #f7f9f6;
-  border-top: 1px solid var(--brand-line);
-  border-bottom: 1px solid var(--brand-line);
-}
-
-.picker-group:first-child .picker-group-title {
-  border-top: 0;
-}
-
-.picker-group-count {
-  font-size: 0.72rem;
-  letter-spacing: 0;
-  color: var(--text-soft);
-}
-
-.picker-items {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.picker-item {
-  border-bottom: 1px solid #eef1ed;
-}
-
-.picker-item:last-child {
-  border-bottom: 0;
-}
-
-.picker-item:has(input:checked) {
-  background: var(--sage-soft);
-}
-
-.picker-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
-  min-height: 54px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-.picker-label:hover {
-  background: #fbfdfb;
-}
-
-.picker-item:has(input:checked) .picker-label:hover {
-  background: var(--sage-soft);
-}
-
-.picker-label:focus-within {
-  outline: 2px solid var(--blue-deep);
-  outline-offset: -2px;
-}
-
-.picker-label input {
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  margin: 0.15rem 0 0;
-  accent-color: var(--sage-deep);
-  cursor: pointer;
-}
-
-.picker-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 0;
-}
-
-.picker-title {
   font-weight: 600;
-  line-height: 1.35;
-  color: var(--text);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-soft);
 }
 
-.picker-meta {
-  font-size: 0.76rem;
-  color: var(--text-soft);
+.filter-select select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.5rem 2.4rem 0.5rem 1rem;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-soft) 50%),
+    linear-gradient(135deg, var(--text-soft) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 21px, calc(100% - 12px) 21px;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--brand-line);
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px rgba(43, 58, 66, 0.05);
+  appearance: none;
+}
+
+.filter-select select:focus-visible {
+  border-color: var(--blue-deep);
+}
+
+@media (min-width: 600px) {
+  .filter-selects {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* Код выбранной подборки */
@@ -382,6 +297,7 @@
 }
 
 .recipe-item {
+  position: relative;
   display: flex;
   min-width: 0;
 }
@@ -390,7 +306,7 @@
   display: flex;
   gap: 0.85rem;
   width: 100%;
-  padding: 1rem 1.05rem;
+  padding: 1rem 3.6rem 1rem 1.05rem;
   font: inherit;
   color: inherit;
   text-align: left;
@@ -407,6 +323,62 @@
   border-color: var(--sage);
   box-shadow: 0 10px 26px rgba(43, 58, 66, 0.12);
   transform: translateY(-2px);
+}
+
+.recipe-select {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--text-soft);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--brand-line);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(43, 58, 66, 0.08);
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.recipe-select:hover,
+.dialog-select:hover {
+  color: var(--sand-deep);
+  background: #ffffff;
+  border-color: var(--sand);
+}
+
+.recipe-select.is-selected,
+.dialog-select.is-selected {
+  color: var(--sand-deep);
+  background: var(--sand-soft);
+  border-color: #e7d8ba;
+}
+
+.recipe-select:focus-visible,
+.dialog-select:focus-visible {
+  outline: 3px solid var(--blue-deep);
+  outline-offset: 2px;
+}
+
+.star-icon {
+  display: block;
+}
+
+.star-icon path {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transition: fill 0.16s ease;
+}
+
+.recipe-select.is-selected .star-icon path,
+.dialog-select.is-selected .star-icon path {
+  fill: currentColor;
 }
 
 .recipe-icon {
@@ -512,6 +484,27 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-soft);
+}
+
+.dialog-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.dialog-select {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--text-soft);
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
 }
 
 .dialog-close {
@@ -710,29 +703,14 @@
     flex: 1 1 auto;
   }
 
-  .picker-head {
-    padding: 0.8rem;
-  }
-
-  .picker-scroll {
-    max-height: 56vh;
-  }
-
-  .picker-actions {
+  .selection-reset {
     width: 100%;
-  }
-
-  .picker-actions .btn {
-    flex: 1 1 140px;
-  }
-
-  .picker-label {
-    padding: 0.5rem 0.8rem;
+    margin-left: 0;
   }
 
   .recipe-card {
     gap: 0.7rem;
-    padding: 0.9rem;
+    padding: 0.9rem 3.4rem 0.9rem 0.9rem;
   }
 
   .recipe-dialog {

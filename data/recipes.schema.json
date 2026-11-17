@@ -96,7 +96,7 @@
         "servings": { "type": "integer", "minimum": 1 },
         "yield": {
           "type": "string",
-          "pattern": "^\\d+(?:[.,]\\d+)?\\s(?:г|кг)$"
+          "pattern": "^\\d+(?:[.,]\\d+)?\\s(?:г|кг|мл|л)$"
         },
         "time": {
           "type": "object",
