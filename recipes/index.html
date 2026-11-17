@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Рецепты праздничного стола — Праздники события</title>
-<meta name="description" content="База рецептов праздничного стола: 265 блюд шести кухонь с составом, граммовками, весом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
+<meta name="description" content="База рецептов праздничного стола: 265 блюд шести кухонь с составом, граммовками, весом или объёмом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
 <meta name="theme-color" content="#fdfcf9">
 <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/base.css">
@@ -42,8 +42,8 @@
         В базе 265 блюд шести кухонь: русской, европейской, кавказской,
         среднеазиатской, ближневосточной и балканской. Выберите все рецепты
         или отметьте нужные звездой на карточке — они появятся во вкладке
-        «Выбранные». Для подборки автоматически формируется код: скопируйте
-        ссылку и отправьте её другу — он увидит тот же набор. База хранится
+        «Выбранные». Для подборки автоматически формируется код: нажмите
+        «Поделиться выбранными», и друг увидит тот же набор. База хранится
         в <code>data/recipes.json</code> и пополняется без правок кода.
       </p>
       <p class="recipes-count">265 рецептов</p>
@@ -51,20 +51,6 @@
 
     <section class="recipes-browser" aria-labelledby="browser-title">
       <h2 id="browser-title" class="visually-hidden">Выбор рецепта</h2>
-
-      <section class="code-panel" aria-labelledby="code-title" hidden>
-        <div class="code-panel-head">
-          <h2 id="code-title">Код подборки</h2>
-          <p>Вставьте код, чтобы открыть сохранённый набор рецептов.</p>
-        </div>
-        <form class="code-form" data-code-form>
-          <label class="visually-hidden" for="code-input">Код подборки</label>
-          <input id="code-input" type="text" placeholder="HV1-…" autocomplete="off"
-                 spellcheck="false" data-code-input>
-          <button class="btn btn-primary" type="submit" data-code-apply>Применить</button>
-        </form>
-        <p class="code-status" role="status" aria-live="polite" data-code-status></p>
-      </section>
 
       <div class="view-row" data-view-switch hidden>
         <div class="view-switch" role="group" aria-label="Режим просмотра">
@@ -109,18 +95,19 @@
         </p>
       </noscript>
 
-      <section class="selection-code" data-code-box hidden aria-labelledby="selection-code-title">
+      <section class="selection-code" data-code-box hidden aria-labelledby="share-title">
         <div class="selection-code-head">
-          <h2 id="selection-code-title">Код этой подборки</h2>
-          <p>Скопируйте код или ссылку — по ссылке откроется тот же набор рецептов.</p>
+          <h2 id="share-title">Поделиться выбранными</h2>
+          <p>Ссылка с кодом подборки откроет этот же набор рецептов.</p>
         </div>
         <div class="code-row">
           <label class="visually-hidden" for="code-output">Код выбранной подборки</label>
           <input id="code-output" class="code-output" type="text" readonly data-code-output>
-          <button class="btn" type="button" data-copy-code>Скопировать код</button>
-          <button class="btn btn-primary" type="button" data-copy-link>Скопировать ссылку</button>
+          <button class="btn btn-primary" type="button" data-share>
+            Поделиться выбранными
+          </button>
         </div>
-        <p class="copy-status" role="status" aria-live="polite" data-copy-status></p>
+        <p class="share-status visually-hidden" role="status" aria-live="polite" data-share-status></p>
       </section>
 
       <section class="results" aria-labelledby="results-title">
@@ -152,6 +139,8 @@
   </footer>
 
 </div>
+
+<div class="toast" data-toast role="status" aria-live="polite" hidden></div>
 
 <dialog class="recipe-dialog" data-dialog aria-labelledby="recipe-dialog-title">
   <div class="dialog-bar">

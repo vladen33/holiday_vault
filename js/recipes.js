@@ -13,10 +13,6 @@
   'use strict';
 
   var refs = {
-    codePanel: document.querySelector('.code-panel'),
-    codeForm: document.querySelector('[data-code-form]'),
-    codeInput: document.querySelector('[data-code-input]'),
-    codeStatus: document.querySelector('[data-code-status]'),
     viewSwitch: document.querySelector('[data-view-switch]'),
     modeButtons: Array.prototype.slice.call(document.querySelectorAll('[data-mode]')),
     filters: document.querySelector('[data-filters]'),
@@ -28,9 +24,9 @@
     selectedBadge: document.querySelector('[data-selected-badge]'),
     codeBox: document.querySelector('[data-code-box]'),
     codeOutput: document.querySelector('[data-code-output]'),
-    copyCode: document.querySelector('[data-copy-code]'),
-    copyLink: document.querySelector('[data-copy-link]'),
-    copyStatus: document.querySelector('[data-copy-status]'),
+    shareButton: document.querySelector('[data-share]'),
+    shareStatus: document.querySelector('[data-share-status]'),
+    toast: document.querySelector('[data-toast]'),
     resultsTitle: document.querySelector('[data-results-title]'),
     grid: document.querySelector('[data-grid]'),
     count: document.querySelector('[data-count]'),
@@ -64,7 +60,7 @@
 
   var resets = Array.prototype.slice.call(document.querySelectorAll('[data-reset]'));
   var year = document.querySelector('[data-year]');
-  var copyTimer = null;
+  var toastTimer = null;
 
   if (year) {
     year.textContent = String(new Date().getFullYear());
@@ -134,7 +130,6 @@
     bindEvents();
 
     setMode('all', true);
-    refs.codePanel.hidden = false;
     refs.filters.hidden = false;
     refs.viewSwitch.hidden = false;
 
@@ -146,7 +141,6 @@
     refs.filters.hidden = true;
     refs.viewSwitch.hidden = true;
     refs.codeBox.hidden = true;
-    hide(refs.codePanel, true);
     refs.grid.textContent = '';
     hide(refs.empty, true);
     hide(refs.count, false);
@@ -174,7 +168,6 @@
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
-    refs.codeBox.hidden = state.mode !== 'selected' || !state.code;
   }
 
   function buildFilters() {
@@ -658,9 +651,9 @@
     if (refs.codeOutput) {
       refs.codeOutput.value = code;
     }
-    refs.codeBox.hidden = state.mode !== 'selected' || !code;
+    refs.codeBox.hidden = !code;
     if (!skipUrl) {
-      writeCodeToUrl(state.mode === 'selected' ? code : '');
+      writeCodeToUrl(code);
     }
   }
 
@@ -684,13 +677,13 @@
 
   function applyCode(raw, source) {
     if (!window.SelectionCode) {
-      showCodeStatus('Модуль кодов не загрузился — обновите страницу.', true);
+      showToast('Модуль кодов не загрузился — обновите страницу.', true);
       return false;
     }
 
     var result = SelectionCode.decode(raw, state.allIds);
     if (!result.ok) {
-      showCodeStatus(codeErrorText(result.error), true);
+      showToast(codeErrorText(result.error), true);
       return false;
     }
 
@@ -708,16 +701,15 @@
     updateModeUI();
     render();
     syncCodeState(source === 'url');
-    refs.codeInput.value = String(raw || '').trim();
 
-    var message = 'Код применён: ' + result.ids.length + ' '
+    var message = 'Подборка загружена: ' + result.ids.length + ' '
       + RecipeStore.plural(result.ids.length, ['рецепт', 'рецепта', 'рецептов']) + '.';
     if (result.missing) {
       message += ' ' + result.missing + ' '
         + RecipeStore.plural(result.missing, ['рецепт', 'рецепта', 'рецептов'])
         + ' из кода не найдено в базе.';
     }
-    showCodeStatus(message, false);
+    showToast(message, false);
     return true;
   }
 
@@ -728,11 +720,9 @@
     } catch (error) {
       code = '';
     }
-    if (!code) {
-      return;
+    if (code) {
+      applyCode(code, 'url');
     }
-    refs.codeInput.value = code;
-    applyCode(code, 'url');
   }
 
   function codeErrorText(error) {
@@ -745,29 +735,24 @@
     return messages[error] || 'Не удалось применить код.';
   }
 
-  function showCodeStatus(message, isError) {
-    if (!refs.codeStatus) {
+  function showToast(message, isError) {
+    if (!refs.toast) {
       return;
     }
-    refs.codeStatus.textContent = message;
-    refs.codeStatus.classList.toggle('is-error', !!isError);
-    refs.codeStatus.classList.toggle('is-ok', !isError && !!message);
-  }
-
-  function showCopyStatus(message, isError) {
-    if (!refs.copyStatus) {
-      return;
+    if (toastTimer) {
+      window.clearTimeout(toastTimer);
     }
-    if (copyTimer) {
-      window.clearTimeout(copyTimer);
+    refs.toast.textContent = message;
+    refs.toast.classList.toggle('is-error', !!isError);
+    refs.toast.hidden = false;
+    refs.toast.classList.add('is-visible');
+    if (refs.shareStatus) {
+      refs.shareStatus.textContent = message;
     }
-    refs.copyStatus.textContent = message;
-    refs.copyStatus.classList.toggle('is-error', !!isError);
-    refs.copyStatus.classList.toggle('is-ok', !isError);
-    copyTimer = window.setTimeout(function () {
-      refs.copyStatus.textContent = '';
-      refs.copyStatus.classList.remove('is-error', 'is-ok');
-    }, 4000);
+    toastTimer = window.setTimeout(function () {
+      refs.toast.classList.remove('is-visible');
+      refs.toast.hidden = true;
+    }, 3500);
   }
 
   function legacyCopy(text) {
@@ -804,44 +789,78 @@
     return Promise.resolve(legacyCopy(text));
   }
 
-  function copyCode() {
-    var code = (refs.codeOutput && refs.codeOutput.value) || state.code;
-    if (!code) {
-      showCopyStatus('Сначала выберите рецепты.', true);
-      return;
-    }
-    copyText(code).then(function (ok) {
-      showCopyStatus(ok ? 'Код скопирован.' : 'Не удалось скопировать код.', !ok);
-      if (!ok && refs.codeOutput) {
-        refs.codeOutput.focus();
-        refs.codeOutput.select();
+  function isMobileViewport() {
+    if (window.matchMedia) {
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        return true;
       }
-    });
+      if (window.matchMedia('(pointer: coarse)').matches) {
+        return true;
+      }
+    }
+    return window.innerWidth <= 768;
   }
 
-  function copyLink() {
-    var code = state.code || encodeSelection();
-    if (!code) {
-      showCopyStatus('Сначала выберите рецепты.', true);
-      return;
-    }
-
-    var link;
+  function buildShareLink(code) {
     try {
       var url = new URL(location.href);
       url.searchParams.set('code', code);
       url.hash = '';
-      link = url.toString();
+      return url.toString();
     } catch (error) {
-      link = location.href.split('#')[0].split('?')[0] + '?code=' + encodeURIComponent(code);
+      return location.href.split('#')[0].split('?')[0]
+        + '?code=' + encodeURIComponent(code);
+    }
+  }
+
+  function shareSelection() {
+    var code = state.code || encodeSelection();
+    if (!code) {
+      showToast('Сначала выберите рецепты.', true);
+      return;
     }
 
-    copyText(link).then(function (ok) {
-      showCopyStatus(ok ? 'Ссылка скопирована.' : 'Не удалось скопировать ссылку.', !ok);
-      if (!ok && refs.codeOutput) {
-        refs.codeOutput.focus();
-        refs.codeOutput.select();
+    var link = buildShareLink(code);
+    var copyPromise = copyText(link);
+    var shareData = {
+      title: 'Праздники события — выбранные рецепты',
+      text: 'Моя подборка рецептов',
+      url: link
+    };
+
+    if (isMobileViewport() && window.navigator
+        && typeof window.navigator.share === 'function') {
+      try {
+        var result = window.navigator.share(shareData);
+        if (result && result.catch) {
+          result.catch(function (error) {
+            if (error && error.name === 'AbortError') {
+              return;
+            }
+            copyPromise.then(function (ok) {
+              showToast(
+                ok ? 'Ссылка скопирована в буфер обмена.' : 'Не удалось скопировать ссылку.',
+                !ok
+              );
+            });
+          });
+        }
+      } catch (error) {
+        copyPromise.then(function (ok) {
+          showToast(
+            ok ? 'Ссылка скопирована в буфер обмена.' : 'Не удалось скопировать ссылку.',
+            !ok
+          );
+        });
       }
+      return;
+    }
+
+    copyPromise.then(function (ok) {
+      showToast(
+        ok ? 'Ссылка скопирована в буфер обмена.' : 'Не удалось скопировать ссылку.',
+        !ok
+      );
     });
   }
 
@@ -898,24 +917,8 @@
       refs.clearSelection.addEventListener('click', clearSelection);
     }
 
-    if (refs.codeForm) {
-      refs.codeForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        applyCode(refs.codeInput.value, 'form');
-      });
-    }
-
-    if (refs.codeInput) {
-      refs.codeInput.addEventListener('input', function () {
-        showCodeStatus('', false);
-      });
-    }
-
-    if (refs.copyCode) {
-      refs.copyCode.addEventListener('click', copyCode);
-    }
-    if (refs.copyLink) {
-      refs.copyLink.addEventListener('click', copyLink);
+    if (refs.shareButton) {
+      refs.shareButton.addEventListener('click', shareSelection);
     }
 
     if (refs.codeOutput) {

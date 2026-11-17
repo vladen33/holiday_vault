@@ -33,69 +33,6 @@
   margin-top: clamp(1.4rem, 3vw, 2rem);
 }
 
-/* Код подборки */
-
-.code-panel {
-  margin: 0 0 1rem;
-  padding: 1rem 1.1rem;
-  background: linear-gradient(160deg, #ffffff 0%, #fbfdfb 65%, var(--sage-soft) 100%);
-  border: 1px solid var(--brand-line);
-  border-radius: var(--radius);
-  box-shadow: var(--brand-shadow);
-}
-
-.code-panel-head h2 {
-  margin: 0 0 0.15rem;
-  font-size: 1.05rem;
-  color: var(--text);
-}
-
-.code-panel-head p {
-  margin: 0 0 0.7rem;
-  font-size: 0.86rem;
-  color: var(--text-soft);
-}
-
-.code-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.code-form input {
-  flex: 1 1 320px;
-  min-height: 46px;
-  padding: 0.55rem 1rem;
-  font: 0.92rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--brand-line);
-  border-radius: 999px;
-  box-shadow: inset 0 1px 2px rgba(43, 58, 66, 0.05);
-}
-
-.code-form input:focus-visible {
-  border-color: var(--blue-deep);
-}
-
-.code-status {
-  min-height: 1.3rem;
-  margin: 0.45rem 0 0;
-  font-size: 0.84rem;
-  color: var(--text-soft);
-}
-
-.code-status.is-error,
-.copy-status.is-error {
-  color: var(--rose-deep);
-}
-
-.code-status.is-ok,
-.copy-status.is-ok {
-  color: var(--sage-deep);
-}
-
 /* Переключатель режимов и сброс выбранных */
 
 .view-row {
@@ -218,7 +155,7 @@
   }
 }
 
-/* Код выбранной подборки */
+/* Поделиться выбранными */
 
 .selection-code {
   margin: 1rem 0 0;
@@ -258,11 +195,33 @@
   border-radius: 12px;
 }
 
-.copy-status {
-  min-height: 1.3rem;
-  margin: 0.45rem 0 0;
-  font-size: 0.84rem;
-  color: var(--text-soft);
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  max-width: min(92vw, 30rem);
+  padding: 0.8rem 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: center;
+  color: #ffffff;
+  background: var(--sage-deep);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(43, 58, 66, 0.22);
+  opacity: 0;
+  transform: translate(-50%, 10px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast.is-error {
+  background: var(--rose-deep);
 }
 
 /* Заголовок результатов */
@@ -685,12 +644,10 @@
    -------------------------------------------------------------------------- */
 
 @media (max-width: 640px) {
-  .code-form input,
   .code-output {
     flex-basis: 100%;
   }
 
-  .code-form .btn,
   .code-row .btn {
     flex: 1 1 100%;
   }
@@ -738,7 +695,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .recipe-card {
+  .recipe-card,
+  .recipe-select,
+  .dialog-select,
+  .star-icon path,
+  .toast {
     transition: none;
   }
 
