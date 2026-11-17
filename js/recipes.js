@@ -22,10 +22,8 @@
     clearSelection: document.querySelector('[data-clear-selection]'),
     dialogSelect: document.querySelector('.dialog-select'),
     selectedBadge: document.querySelector('[data-selected-badge]'),
-    codeBox: document.querySelector('[data-code-box]'),
-    codeOutput: document.querySelector('[data-code-output]'),
     shareButton: document.querySelector('[data-share]'),
-    shareStatus: document.querySelector('[data-share-status]'),
+    shareCount: document.querySelector('[data-share-count]'),
     toast: document.querySelector('[data-toast]'),
     resultsTitle: document.querySelector('[data-results-title]'),
     grid: document.querySelector('[data-grid]'),
@@ -140,7 +138,6 @@
   function fail(error) {
     refs.filters.hidden = true;
     refs.viewSwitch.hidden = true;
-    refs.codeBox.hidden = true;
     refs.grid.textContent = '';
     hide(refs.empty, true);
     hide(refs.count, false);
@@ -313,6 +310,20 @@
     setText(refs.selectedBadge, String(count));
     if (refs.clearSelection) {
       refs.clearSelection.hidden = count === 0;
+    }
+    if (refs.shareButton) {
+      refs.shareButton.disabled = count === 0;
+      refs.shareButton.setAttribute(
+        'aria-label',
+        count
+          ? 'Поделиться выбранными: ' + count + ' '
+            + RecipeStore.plural(count, ['блюдо', 'блюда', 'блюд'])
+          : 'Поделиться выбранными'
+      );
+    }
+    if (refs.shareCount) {
+      refs.shareCount.textContent = String(count);
+      refs.shareCount.hidden = count === 0;
     }
   }
 
@@ -582,6 +593,10 @@
       'title',
       selected ? 'Убрать из выбранных' : 'Добавить в выбранные'
     );
+    var label = button.querySelector('[data-select-label]');
+    if (label) {
+      label.textContent = selected ? 'Выбрано' : 'Выбрать';
+    }
   }
 
   function updateSelectionControls() {
@@ -648,10 +663,6 @@
   function syncCodeState(skipUrl) {
     var code = encodeSelection();
     state.code = code;
-    if (refs.codeOutput) {
-      refs.codeOutput.value = code;
-    }
-    refs.codeBox.hidden = !code;
     if (!skipUrl) {
       writeCodeToUrl(code);
     }
@@ -746,9 +757,6 @@
     refs.toast.classList.toggle('is-error', !!isError);
     refs.toast.hidden = false;
     refs.toast.classList.add('is-visible');
-    if (refs.shareStatus) {
-      refs.shareStatus.textContent = message;
-    }
     toastTimer = window.setTimeout(function () {
       refs.toast.classList.remove('is-visible');
       refs.toast.hidden = true;
@@ -921,12 +929,6 @@
       refs.shareButton.addEventListener('click', shareSelection);
     }
 
-    if (refs.codeOutput) {
-      refs.codeOutput.addEventListener('focus', function () {
-        refs.codeOutput.select();
-      });
-    }
-
     resets.forEach(function (button) {
       button.addEventListener('click', function () {
         if (refs.search) {
@@ -965,18 +967,6 @@
     refs.dialog.addEventListener('close', function () {
       cleanupDialog();
       clearHash();
-    });
-
-    var printButton = document.querySelector('[data-print]');
-    if (printButton) {
-      printButton.addEventListener('click', function () {
-        document.body.classList.add('is-printing');
-        window.print();
-      });
-    }
-
-    window.addEventListener('afterprint', function () {
-      document.body.classList.remove('is-printing');
     });
 
     document.addEventListener('keydown', function (event) {

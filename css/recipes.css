@@ -107,6 +107,7 @@
 .filter-selects {
   display: grid;
   grid-template-columns: 1fr;
+  align-items: end;
   gap: 0.55rem;
   margin-top: 0.7rem;
 }
@@ -153,46 +154,53 @@
   .filter-selects {
     grid-template-columns: 1fr 1fr;
   }
+
+  .btn.share-button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
 }
 
-/* Поделиться выбранными */
+@media (min-width: 900px) {
+  .filter-selects {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  }
 
-.selection-code {
-  margin: 1rem 0 0;
-  padding: 1rem 1.1rem;
-  background: var(--sand-soft);
-  border: 1px solid #e7d8ba;
-  border-radius: var(--radius);
+  .btn.share-button {
+    grid-column: auto;
+    width: auto;
+    justify-self: end;
+  }
 }
 
-.selection-code-head h2 {
-  margin: 0 0 0.15rem;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.selection-code-head p {
-  margin: 0 0 0.7rem;
-  font-size: 0.85rem;
-  color: var(--text-soft);
-}
-
-.code-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.code-output {
-  flex: 1 1 300px;
+.btn.share-button {
   min-height: 46px;
-  padding: 0.55rem 1rem;
-  font: 0.9rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  color: var(--text);
+  align-self: end;
+  white-space: nowrap;
+}
+
+.share-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.55em;
+  min-height: 1.55em;
+  margin-left: 0.35rem;
+  padding: 0 0.35em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--sage-deep);
   background: #ffffff;
-  border: 1px solid #e7d8ba;
-  border-radius: 12px;
+  border-radius: 999px;
+}
+
+.btn.share-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn.share-button:disabled:hover {
+  background: var(--sage-deep);
+  border-color: var(--sage-deep);
 }
 
 .toast {
@@ -445,25 +453,33 @@
   color: var(--text-soft);
 }
 
-.dialog-actions {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 0.25rem;
-}
-
 .dialog-select {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: auto;
+  height: auto;
+  min-height: 44px;
+  padding: 0.3rem 0.8rem 0.3rem 0.6rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--text-soft);
   cursor: pointer;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--brand-line);
+  border-radius: 999px;
   transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.dialog-select .star-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.select-label {
+  line-height: 1;
 }
 
 .dialog-close {
@@ -644,12 +660,8 @@
    -------------------------------------------------------------------------- */
 
 @media (max-width: 640px) {
-  .code-output {
-    flex-basis: 100%;
-  }
-
-  .code-row .btn {
-    flex: 1 1 100%;
+  .btn.share-button {
+    width: 100%;
   }
 
   .view-switch {
@@ -706,38 +718,5 @@
   .recipe-card:hover,
   .recipe-card:focus-visible {
     transform: none;
-  }
-}
-
-/* Печать: печатается только открытый рецепт */
-@media print {
-  body.is-printing {
-    background: #ffffff;
-  }
-
-  body.is-printing > *:not(.recipe-dialog) {
-    display: none !important;
-  }
-
-  body.is-printing .recipe-dialog {
-    position: static;
-    width: auto;
-    max-width: none;
-    max-height: none;
-    margin: 0;
-    overflow: visible;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  body.is-printing .dialog-bar,
-  body.is-printing .dialog-foot {
-    display: none;
-  }
-
-  body.is-printing .dialog-body {
-    padding: 0;
-    overflow: visible;
   }
 }

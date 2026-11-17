@@ -85,6 +85,10 @@
             <label for="category-filter">Тип блюда</label>
             <select id="category-filter" data-category-filter></select>
           </p>
+          <button class="btn btn-primary share-button" type="button" data-share disabled>
+            Поделиться
+            <span class="share-count" data-share-count hidden>0</span>
+          </button>
         </div>
       </form>
 
@@ -94,21 +98,6 @@
           <code>data/recipes.json</code> — её можно открыть и без страницы.
         </p>
       </noscript>
-
-      <section class="selection-code" data-code-box hidden aria-labelledby="share-title">
-        <div class="selection-code-head">
-          <h2 id="share-title">Поделиться выбранными</h2>
-          <p>Ссылка с кодом подборки откроет этот же набор рецептов.</p>
-        </div>
-        <div class="code-row">
-          <label class="visually-hidden" for="code-output">Код выбранной подборки</label>
-          <input id="code-output" class="code-output" type="text" readonly data-code-output>
-          <button class="btn btn-primary" type="button" data-share>
-            Поделиться выбранными
-          </button>
-        </div>
-        <p class="share-status visually-hidden" role="status" aria-live="polite" data-share-status></p>
-      </section>
 
       <section class="results" aria-labelledby="results-title">
         <div class="results-head">
@@ -145,16 +134,7 @@
 <dialog class="recipe-dialog" data-dialog aria-labelledby="recipe-dialog-title">
   <div class="dialog-bar">
     <p class="dialog-kicker" data-dialog-category></p>
-    <div class="dialog-actions">
-      <button class="dialog-select" type="button" data-select-recipe=""
-              aria-pressed="false" aria-label="Добавить в выбранные">
-        <svg class="star-icon" viewBox="0 0 24 24" width="22" height="22"
-             aria-hidden="true" focusable="false">
-          <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>
-        </svg>
-      </button>
-      <button class="dialog-close" type="button" data-close aria-label="Закрыть рецепт">✕</button>
-    </div>
+    <button class="dialog-close" type="button" data-close aria-label="Закрыть рецепт">✕</button>
   </div>
   <div class="dialog-body">
     <h2 class="dialog-title" id="recipe-dialog-title" data-dialog-title></h2>
@@ -180,7 +160,14 @@
     <p class="dialog-allergens" data-dialog-allergens hidden></p>
   </div>
   <div class="dialog-foot">
-    <button class="btn" type="button" data-print>Печать</button>
+    <button class="dialog-select" type="button" data-select-recipe=""
+            aria-pressed="false" aria-label="Добавить в выбранные">
+      <svg class="star-icon" viewBox="0 0 24 24" width="22" height="22"
+           aria-hidden="true" focusable="false">
+        <path d="M12 3.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>
+      </svg>
+      <span class="select-label" data-select-label>Выбрать</span>
+    </button>
     <button class="btn btn-primary" type="button" data-close>Закрыть</button>
   </div>
 </dialog>
