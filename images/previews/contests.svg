@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400" role="img" aria-label="Золотой кубок, конфетти и флажки">
+  <rect width="640" height="400" fill="#f7f1e7"/>
+  <circle cx="108" cy="84" r="58" fill="#e8efe6"/>
+  <circle cx="548" cy="312" r="68" fill="#e6eef3"/>
+  <circle cx="574" cy="86" r="34" fill="#f6eaea"/>
+
+  <g stroke="#b8934f" stroke-width="3" stroke-linecap="round">
+    <path d="M94 58 L548 58"/>
+    <path d="M102 58 L123 104 L144 58"/>
+    <path d="M171 58 L192 104 L213 58"/>
+    <path d="M240 58 L261 104 L282 58"/>
+    <path d="M309 58 L330 104 L351 58"/>
+    <path d="M378 58 L399 104 L420 58"/>
+    <path d="M447 58 L468 104 L489 58"/>
+  </g>
+
+  <ellipse cx="320" cy="344" rx="150" ry="24" fill="#e6ddcc"/>
+
+  <g fill="#e8b64c" stroke="#b8934f" stroke-width="3">
+    <path d="M258 138h124v42c0 44-28 74-62 74s-62-30-62-74z"/>
+    <path d="M258 150h-28c-18 0-28 14-28 30 0 28 24 46 52 46" fill="none"/>
+    <path d="M382 150h28c18 0 28 14 28 30 0 28-24 46-52 46" fill="none"/>
+    <rect x="306" y="252" width="28" height="42" rx="6"/>
+    <rect x="272" y="292" width="96" height="18" rx="8"/>
+    <rect x="286" y="310" width="68" height="14" rx="6" fill="#d8a83e"/>
+  </g>
+
+  <g fill="#fdf4dc" stroke="#b8934f" stroke-width="2">
+    <circle cx="320" cy="176" r="21"/>
+    <path d="M320 162l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10-9-4.8-9 4.8 1.7-10-7.3-7.1 10.1-1.5z"/>
+  </g>
+
+  <g fill="#a97079">
+    <rect x="196" y="188" width="14" height="7" rx="3" transform="rotate(-24 203 191)"/>
+    <rect x="430" y="156" width="14" height="7" rx="3" transform="rotate(30 437 159)"/>
+    <rect x="464" y="220" width="14" height="7" rx="3" transform="rotate(-18 471 223)"/>
+    <rect x="176" y="262" width="14" height="7" rx="3" transform="rotate(20 183 265)"/>
+  </g>
+  <g fill="#6f92a8">
+    <circle cx="210" cy="146" r="5"/>
+    <circle cx="438" cy="120" r="5"/>
+    <circle cx="498" cy="272" r="5"/>
+    <circle cx="154" cy="226" r="4"/>
+  </g>
+  <g fill="#7f9c86">
+    <rect x="234" y="116" width="8" height="14" rx="3" transform="rotate(18 238 123)"/>
+    <rect x="408" y="238" width="8" height="14" rx="3" transform="rotate(-22 412 245)"/>
+    <rect x="522" y="196" width="8" height="14" rx="3" transform="rotate(14 526 203)"/>
+  </g>
+
+  <g fill="#b8934f" opacity="0.55">
+    <circle cx="84" cy="288" r="4"/>
+    <circle cx="552" cy="158" r="4"/>
+    <circle cx="360" cy="352" r="4"/>
+  </g>
+</svg>

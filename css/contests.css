@@ -1,0 +1,43 @@
+/* ==========================================================================
+   contests.css — страница «Конкурсы»
+   Оболочка, шапка и подвал переиспользуются из home.css.
+   ========================================================================== */
+
+.page-nav {
+  display: flex;
+  margin: 0 0 1rem;
+}
+
+.contests-intro {
+  padding: clamp(1.2rem, 4vw, 2rem);
+  background: linear-gradient(160deg, #ffffff 0%, #fbfdfb 58%, var(--sand-soft) 100%);
+  border: 1px solid var(--brand-line);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--brand-shadow);
+}
+
+.contests-intro .lead {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+  color: var(--text-soft);
+}
+
+.contests-soon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  background: var(--sand-soft);
+  border-left: 4px solid var(--sand);
+  border-radius: 0 12px 12px 0;
+}
+
+@media (max-width: 640px) {
+  .contests-intro {
+    padding: 1.1rem 0.95rem 1.2rem;
+  }
+}
