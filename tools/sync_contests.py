@@ -64,13 +64,19 @@ def validate(data):
 
     contest_ids = set()
     titles = set()
+    type_counts = {}
     for index, contest in enumerate(contests):
         errors.extend(
             check_contest(
                 contest, index, type_ids, audience_ids, contest_ids, titles,
-                warnings,
+                type_counts, warnings,
             )
         )
+
+    for type_id in type_ids:
+        count = type_counts.get(type_id, 0)
+        if count != 25:
+            warnings.append(f"тип «{type_id}»: конкурсов {count}, ожидается 25")
 
     new_year = sum(
         1 for contest in contests
@@ -79,8 +85,8 @@ def validate(data):
     )
     if new_year != 20:
         warnings.append(f"новогодних конкурсов {new_year}, ожидается 20")
-    if len(contests) != 179:
-        warnings.append(f"всего конкурсов {len(contests)}, ожидается 179")
+    if len(contests) != 200:
+        warnings.append(f"всего конкурсов {len(contests)}, ожидается 200")
 
     return errors, warnings
 
@@ -110,7 +116,7 @@ def read_refs(value, where, keys, errors, warnings):
 
 
 def check_contest(contest, index, type_ids, audience_ids, contest_ids, titles,
-                  warnings):
+                  type_counts, warnings):
     errors = []
     where = f"contests[{index}]"
     if not isinstance(contest, dict):
@@ -141,6 +147,8 @@ def check_contest(contest, index, type_ids, audience_ids, contest_ids, titles,
     ctype = contest.get("type")
     if ctype not in type_ids:
         errors.append(f"{where}: тип «{ctype}» отсутствует в types")
+    else:
+        type_counts[ctype] = type_counts.get(ctype, 0) + 1
 
     audiences = contest.get("audiences")
     if not isinstance(audiences, list) or not audiences:
