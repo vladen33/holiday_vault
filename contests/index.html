@@ -4,12 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Конкурсы — Праздники события</title>
-<meta name="description" content="Конкурсы, викторины и задания для праздничного вечера. Раздел готовится: скоро здесь появятся игры для детей и взрослых.">
+<meta name="description" content="179 готовых конкурсов для праздничного вечера: застольные, активные, интеллектуальные, творческие, музыкальные, театральные, кулинарные и квесты. Правила, реквизит и советы ведущему.">
 <meta name="theme-color" content="#fdfcf9">
 <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/home.css">
 <link rel="stylesheet" href="../css/contests.css">
+<script src="../data/contests.bundle.js" defer></script>
+<script src="../js/contest-store.js" defer></script>
+<script src="../js/contests.js" defer></script>
 </head>
 <body>
 
@@ -32,54 +35,81 @@
   <main id="main">
 
     <section class="contests-intro" aria-labelledby="page-title">
-      <p class="eyebrow">Раздел</p>
+      <p class="eyebrow">Игры и задания</p>
       <h1 id="page-title">Конкурсы</h1>
       <p class="lead">
-        Конкурсы, викторины и задания, которые можно провести дома или
-        в гостях. Здесь появятся готовые сценарии с правилами, реквизитом
-        и подсказками для ведущего.
+        Сто семьдесят девять готовых конкурсов для праздничного вечера:
+        застольные игры, активные состязания, викторины, творческие задания,
+        музыка, театр, кулинарные испытания и квесты. Двадцать из них —
+        новогодние. У каждого есть правила, реквизит и совет ведущему.
       </p>
-      <p class="contests-soon">
-        <span class="soon-badge">Скоро</span>
-        Раздел готовится. Конкурсы добавим в ближайшее время.
-      </p>
+      <ul class="contest-stats">
+        <li><strong>179</strong> конкурсов</li>
+        <li><strong>8</strong> типов</li>
+        <li><strong>5</strong> аудиторий</li>
+        <li><strong>20</strong> новогодних</li>
+      </ul>
     </section>
 
-    <section class="about" aria-labelledby="about-title">
-      <h2 id="about-title">Что появится в разделе</h2>
-      <div class="about-grid">
-        <article class="about-card">
-          <h3>Конкурсы для гостей</h3>
-          <p>
-            Короткие игры за столом, которые не требуют подготовки
-            и помогают разговорить компанию.
+    <section class="contests-browser" aria-labelledby="browser-title">
+      <h2 id="browser-title" class="visually-hidden">Выбор конкурса</h2>
+
+      <form class="contest-filters" data-filters hidden>
+        <div class="filter-selects">
+          <p class="filter-select">
+            <label for="contest-type">Тип конкурса</label>
+            <select id="contest-type" data-type-filter></select>
           </p>
-        </article>
-        <article class="about-card">
-          <h3>Викторины</h3>
-          <p>
-            Вопросы для детей и взрослых с ответами и вариантами
-            проведения — от командной игры до блиц-раунда.
+          <p class="filter-select">
+            <label for="contest-audience">Для кого</label>
+            <select id="contest-audience" data-audience-filter></select>
           </p>
-        </article>
-        <article class="about-card">
-          <h3>Задания и реквизит</h3>
-          <p>
-            Список того, что понадобится, и пошаговые инструкции,
-            чтобы конкурс можно было провести без импровизации.
-          </p>
-        </article>
+          <button class="reset contest-reset" type="button" data-reset hidden>
+            Сбросить
+          </button>
+        </div>
+      </form>
+
+      <div class="tag-filter" data-tag-filter hidden>
+        <div class="tag-filter-head">
+          <h3>Теги</h3>
+          <button class="reset tag-reset" type="button" data-reset-tags hidden>
+            Сбросить теги
+          </button>
+        </div>
+        <div class="tag-filter-list" data-tag-list></div>
       </div>
+
+      <noscript>
+        <p class="noscript-note">
+          Для выбора конкурсов нужен JavaScript. Сама база лежит в
+          <code>data/contests.json</code> — её можно открыть и без страницы.
+        </p>
+      </noscript>
+
+      <p class="error" data-error hidden></p>
+
+      <div class="results-head">
+        <h2>Все конкурсы</h2>
+        <p class="contest-count" role="status" aria-live="polite" data-count>179 конкурсов</p>
+      </div>
+
+      <ul class="contest-grid" data-grid></ul>
+
+      <p class="empty" data-empty hidden>
+        <span data-empty-text>Ничего не найдено. Попробуйте другой фильтр.</span>
+        <button class="reset reset-inline" type="button" data-reset data-reset-empty>Сбросить</button>
+      </p>
     </section>
 
   </main>
 
   <footer class="site-footer">
-    <p>© 2026 Праздники события · конкурсы</p>
+    <p>© <span data-year>2026</span> Праздники события · конкурсы</p>
     <p class="footer-note">
       Статический проект на HTML, CSS и небольшом количестве JavaScript.
-      Все файлы лежат рядом, поэтому страницы открываются и по двойному
-      клику, и на GitHub Pages.
+      Данные конкурсов лежат в <code>data/contests.json</code>, для
+      <code>file://</code> рядом собран <code>data/contests.bundle.js</code>.
     </p>
   </footer>
 
