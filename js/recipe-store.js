@@ -12,7 +12,8 @@
      RecipeStore.all() / get(id) / byIds([...]),
      RecipeStore.categories() / categoryById(id) / holidays() / holidayById(id),
      RecipeStore.cuisines() / cuisineById(id),
-     RecipeStore.query({ query, category, holiday, cuisine }),
+     RecipeStore.methods() / methodById(id), allTags(),
+     RecipeStore.query({ query, category, holiday, cuisine, methods, tags }),
      RecipeStore.formatAmount(ingredient) / formatTime(min) / totalTime(recipe),
      RecipeStore.plural(n, ['рецепт', 'рецепта', 'рецептов']),
      RecipeStore.difficultyLabel(value)
@@ -95,6 +96,34 @@
     return (current().categories || []).slice().sort(byOrder);
   }
 
+  function methods() {
+    return (current().methods || []).slice().sort(function (left, right) {
+      return (left.order || 0) - (right.order || 0);
+    });
+  }
+
+  function methodById(id) {
+    var list = current().methods || [];
+    for (var i = 0; i < list.length; i += 1) {
+      if (list[i].id === id) {
+        return list[i];
+      }
+    }
+    return null;
+  }
+
+  function allTags() {
+    var seen = {};
+    all().forEach(function (recipe) {
+      (recipe.tags || []).forEach(function (tag) {
+        seen[tag] = true;
+      });
+    });
+    return Object.keys(seen).sort(function (left, right) {
+      return left.localeCompare(right, 'ru');
+    });
+  }
+
   function categoryById(id) {
     var list = current().categories || [];
     for (var i = 0; i < list.length; i += 1) {
@@ -157,6 +186,10 @@
     if (cuisine) {
       parts.push(cuisine.title);
     }
+    var method = methodById(recipe.method);
+    if (method) {
+      parts.push(method.title);
+    }
     (recipe.tags || []).forEach(function (tag) {
       parts.push(tag);
     });
@@ -177,6 +210,8 @@
     var category = opts.category || 'all';
     var holiday = opts.holiday || 'all';
     var cuisine = opts.cuisine || 'all';
+    var methods = opts.methods || [];
+    var tags = opts.tags || [];
     var text = normalize(opts.query);
 
     return all().filter(function (recipe) {
@@ -188,6 +223,17 @@
       }
       if (cuisine !== 'all' && recipe.cuisine !== cuisine) {
         return false;
+      }
+      if (methods.length && methods.indexOf(recipe.method) === -1) {
+        return false;
+      }
+      if (tags.length) {
+        var recipeTags = recipe.tags || [];
+        for (var i = 0; i < tags.length; i += 1) {
+          if (recipeTags.indexOf(tags[i]) === -1) {
+            return false;
+          }
+        }
       }
       return !text || searchText(recipe).indexOf(text) !== -1;
     });
@@ -205,6 +251,14 @@
     var counts = {};
     all().forEach(function (recipe) {
       counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function countByMethod() {
+    var counts = {};
+    all().forEach(function (recipe) {
+      counts[recipe.method] = (counts[recipe.method] || 0) + 1;
     });
     return counts;
   }
@@ -262,12 +316,16 @@
     byIds: byIds,
     categories: categories,
     categoryById: categoryById,
+    methods: methods,
+    methodById: methodById,
+    allTags: allTags,
     countByCategory: countByCategory,
     holidays: holidays,
     holidayById: holidayById,
     cuisines: cuisines,
     cuisineById: cuisineById,
     countByCuisine: countByCuisine,
+    countByMethod: countByMethod,
     query: query,
     searchText: searchText,
     normalize: normalize,

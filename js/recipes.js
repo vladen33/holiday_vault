@@ -19,6 +19,13 @@
     search: document.querySelector('[data-search]'),
     cuisineSelect: document.querySelector('[data-cuisine-filter]'),
     categorySelect: document.querySelector('[data-category-filter]'),
+    methodFilter: document.querySelector('[data-method-filter]'),
+    methodList: document.querySelector('[data-method-list]'),
+    tagFilter: document.querySelector('[data-tag-filter]'),
+    tagList: document.querySelector('[data-tag-list]'),
+    tagSearch: document.querySelector('[data-tag-search]'),
+    tagReset: document.querySelector('[data-reset-tags]'),
+    tagTotal: document.querySelector('[data-tag-total]'),
     clearSelection: document.querySelector('[data-clear-selection]'),
     dialogSelect: document.querySelector('.dialog-select'),
     selectedBadge: document.querySelector('[data-selected-badge]'),
@@ -49,6 +56,12 @@
     query: '',
     category: 'all',
     cuisine: 'all',
+    methods: [],
+    tags: [],
+    allTags: [],
+    visibleTags: [],
+    tagCounts: {},
+    tagQuery: '',
     total: 0,
     allIds: [],
     selected: Object.create(null),
@@ -123,12 +136,31 @@
     state.allIds = RecipeStore.all().map(function (recipe) {
       return recipe.id;
     });
+    state.allTags = RecipeStore.allTags();
+    state.tagCounts = {};
+    RecipeStore.all().forEach(function (recipe) {
+      (recipe.tags || []).forEach(function (tag) {
+        state.tagCounts[tag] = (state.tagCounts[tag] || 0) + 1;
+      });
+    });
+    state.visibleTags = state.allTags.filter(function (tag) {
+      return (state.tagCounts[tag] || 0) >= 5;
+    });
+    if (refs.tagTotal) {
+      refs.tagTotal.textContent = String(state.visibleTags.length);
+    }
 
     bindEvents();
 
     setMode('all', true);
     refs.filters.hidden = false;
     refs.viewSwitch.hidden = false;
+    if (refs.methodFilter) {
+      refs.methodFilter.hidden = false;
+    }
+    if (refs.tagFilter) {
+      refs.tagFilter.hidden = false;
+    }
 
     applyCodeFromUrl();
     openFromHash();
@@ -137,6 +169,12 @@
   function fail(error) {
     refs.filters.hidden = true;
     refs.viewSwitch.hidden = true;
+    if (refs.methodFilter) {
+      refs.methodFilter.hidden = true;
+    }
+    if (refs.tagFilter) {
+      refs.tagFilter.hidden = true;
+    }
     refs.grid.textContent = '';
     hide(refs.empty, true);
     hide(refs.count, false);
@@ -170,7 +208,9 @@
     var cuisineSource = RecipeStore.query({
       query: state.query,
       category: state.category,
-      cuisine: 'all'
+      cuisine: 'all',
+      methods: state.methods,
+      tags: state.tags
     });
     var cuisineCounts = {};
     cuisineSource.forEach(function (recipe) {
@@ -180,7 +220,9 @@
     var categorySource = RecipeStore.query({
       query: state.query,
       category: 'all',
-      cuisine: state.cuisine
+      cuisine: state.cuisine,
+      methods: state.methods,
+      tags: state.tags
     });
     var categoryCounts = {};
     categorySource.forEach(function (recipe) {
@@ -221,6 +263,232 @@
     return node;
   }
 
+  function buildMethodFilter() {
+    if (!refs.methodList) {
+      return;
+    }
+    var source = RecipeStore.query({
+      query: state.query,
+      category: state.category,
+      cuisine: state.cuisine,
+      tags: state.tags
+    });
+    var counts = {};
+    source.forEach(function (recipe) {
+      counts[recipe.method] = (counts[recipe.method] || 0) + 1;
+    });
+
+    refs.methodList.textContent = '';
+    RecipeStore.methods().forEach(function (method) {
+      var count = counts[method.id] || 0;
+      var selected = state.methods.indexOf(method.id) !== -1;
+      var button = el('button', 'method-button');
+      button.type = 'button';
+      button.setAttribute('data-method', method.id);
+      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      button.disabled = count === 0 && !selected;
+      if (selected) {
+        button.classList.add('is-active');
+      }
+      if (method.icon) {
+        var icon = el('span', 'method-icon', method.icon);
+        icon.setAttribute('aria-hidden', 'true');
+        button.appendChild(icon);
+      }
+      button.appendChild(el('span', 'method-label', method.title));
+      button.appendChild(el('span', 'method-count', String(count)));
+      button.setAttribute(
+        'aria-label',
+        method.title + ': ' + count + ' '
+          + RecipeStore.plural(count, ['рецепт', 'рецепта', 'рецептов'])
+      );
+      button.addEventListener('click', function () {
+        onMethodToggle(method.id);
+      });
+      refs.methodList.appendChild(button);
+    });
+  }
+
+  function onMethodToggle(id) {
+    var index = state.methods.indexOf(id);
+    if (index !== -1) {
+      state.methods.splice(index, 1);
+    } else {
+      var count = RecipeStore.query({
+        query: state.query,
+        category: state.category,
+        cuisine: state.cuisine,
+        methods: [id]
+      }).length;
+      if (!count) {
+        return;
+      }
+      state.methods.push(id);
+    }
+    normalizeTags();
+    render();
+    focusMethod(id);
+  }
+
+  function focusMethod(id) {
+    if (!refs.methodList) {
+      return;
+    }
+    var buttons = refs.methodList.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i += 1) {
+      if (buttons[i].getAttribute('data-method') === id) {
+        buttons[i].focus();
+        return;
+      }
+    }
+  }
+
+  function normalizeMethods() {
+    if (!state.methods.length) {
+      return;
+    }
+    state.methods = state.methods.filter(function (id) {
+      return RecipeStore.query({
+        query: state.query,
+        category: state.category,
+        cuisine: state.cuisine,
+        methods: [id]
+      }).length > 0;
+    });
+  }
+
+  function buildTagFilter() {
+    if (!refs.tagList) {
+      return;
+    }
+    var base = RecipeStore.query({
+      query: state.query,
+      category: state.category,
+      cuisine: state.cuisine,
+      methods: state.methods
+    });
+    var search = RecipeStore.normalize(state.tagQuery);
+    refs.tagList.textContent = '';
+    var shown = 0;
+
+    state.visibleTags.forEach(function (tag) {
+      var selected = state.tags.indexOf(tag) !== -1;
+      var tagSearch = RecipeStore.normalize(tag);
+      if (search && tagSearch.indexOf(search) === -1 && !selected) {
+        return;
+      }
+      var others = state.tags.filter(function (item) {
+        return item !== tag;
+      });
+      var count = base.filter(function (recipe) {
+        var recipeTags = recipe.tags || [];
+        if (recipeTags.indexOf(tag) === -1) {
+          return false;
+        }
+        for (var i = 0; i < others.length; i += 1) {
+          if (recipeTags.indexOf(others[i]) === -1) {
+            return false;
+          }
+        }
+        return true;
+      }).length;
+      var button = el('button', 'tag-filter-button');
+      button.type = 'button';
+      button.setAttribute('data-tag', tag);
+      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      button.disabled = count === 0 && !selected;
+      if (selected) {
+        button.classList.add('is-active');
+      }
+      button.appendChild(el('span', 'tag-filter-label', tag));
+      button.appendChild(el('span', 'tag-filter-count', String(count)));
+      button.setAttribute(
+        'aria-label',
+        tag + ': ' + count + ' '
+          + RecipeStore.plural(count, ['рецепт', 'рецепта', 'рецептов'])
+      );
+      button.addEventListener('click', function () {
+        onTagToggle(tag);
+      });
+      refs.tagList.appendChild(button);
+      shown += 1;
+    });
+
+    if (!shown) {
+      refs.tagList.appendChild(
+        el('p', 'tag-filter-empty', 'Тег не найден. Попробуйте другое слово.')
+      );
+    }
+  }
+
+  function onTagToggle(tag) {
+    var index = state.tags.indexOf(tag);
+    if (index !== -1) {
+      state.tags.splice(index, 1);
+    } else {
+      var next = state.tags.concat([tag]);
+      if (!RecipeStore.query({
+        query: state.query,
+        category: state.category,
+        cuisine: state.cuisine,
+        methods: state.methods,
+        tags: next
+      }).length) {
+        return;
+      }
+      state.tags.push(tag);
+    }
+    render();
+    focusTag(tag);
+  }
+
+  function focusTag(tag) {
+    if (!refs.tagList) {
+      return;
+    }
+    var buttons = refs.tagList.querySelectorAll('button');
+    for (var i = 0; i < buttons.length; i += 1) {
+      if (buttons[i].getAttribute('data-tag') === tag) {
+        buttons[i].focus();
+        return;
+      }
+    }
+  }
+
+  function normalizeTags() {
+    if (!state.tags.length) {
+      return;
+    }
+    if (RecipeStore.query({
+      query: state.query,
+      category: state.category,
+      cuisine: state.cuisine,
+      methods: state.methods,
+      tags: state.tags
+    }).length) {
+      return;
+    }
+    var kept = state.tags.filter(function (tag) {
+      return RecipeStore.query({
+        query: state.query,
+        category: state.category,
+        cuisine: state.cuisine,
+        methods: state.methods,
+        tags: [tag]
+      }).length > 0;
+    });
+    if (!RecipeStore.query({
+      query: state.query,
+      category: state.category,
+      cuisine: state.cuisine,
+      methods: state.methods,
+      tags: kept
+    }).length) {
+      kept = [];
+    }
+    state.tags = kept;
+  }
+
   function hasRecipes(category, cuisine) {
     return RecipeStore.query({
       query: '',
@@ -235,6 +503,8 @@
         && !hasRecipes(state.category, state.cuisine)) {
       state.cuisine = 'all';
     }
+    normalizeMethods();
+    normalizeTags();
     render();
   }
 
@@ -244,20 +514,26 @@
         && !hasRecipes(state.category, state.cuisine)) {
       state.category = 'all';
     }
+    normalizeMethods();
+    normalizeTags();
     render();
   }
 
   function render() {
     var filtered = state.query.trim() !== ''
       || state.category !== 'all'
-      || state.cuisine !== 'all';
+      || state.cuisine !== 'all'
+      || state.methods.length > 0
+      || state.tags.length > 0;
     var list;
 
     if (state.mode === 'all') {
       list = RecipeStore.query({
         query: state.query,
         category: state.category,
-        cuisine: state.cuisine
+        cuisine: state.cuisine,
+        methods: state.methods,
+        tags: state.tags
       });
       renderCards(list);
       setText(refs.resultsTitle, 'Все рецепты');
@@ -267,7 +543,9 @@
       list = RecipeStore.query({
         query: state.query,
         category: state.category,
-        cuisine: state.cuisine
+        cuisine: state.cuisine,
+        methods: state.methods,
+        tags: state.tags
       }).filter(function (recipe) {
         return state.selected[recipe.id] === true;
       });
@@ -278,6 +556,8 @@
     }
 
     buildFilterOptions();
+    buildMethodFilter();
+    buildTagFilter();
     updateBadge();
     updateSelectionControls();
     updateResets(filtered);
@@ -335,11 +615,11 @@
 
   function updateResets(filtered) {
     resets.forEach(function (button) {
-      if (button.hasAttribute('data-reset-empty')) {
-        return;
-      }
       button.hidden = !filtered;
     });
+    if (refs.tagReset) {
+      refs.tagReset.hidden = state.tags.length === 0;
+    }
   }
 
   function updateBadge() {
@@ -405,7 +685,13 @@
     body.appendChild(el('span', 'recipe-meta', cardMeta(recipe)));
 
     var tags = el('span', 'recipe-tags');
-    (recipe.tags || []).slice(0, 3).forEach(function (tag) {
+    var method = RecipeStore.methodById(recipe.method);
+    if (method) {
+      tags.appendChild(
+        el('span', 'tag method-tag', method.short || method.title)
+      );
+    }
+    (recipe.tags || []).slice(0, method ? 2 : 3).forEach(function (tag) {
       tags.appendChild(el('span', 'tag tag-sage', tag));
     });
     if (tags.childNodes.length) {
@@ -444,6 +730,7 @@
   function fillDialog(recipe) {
     var category = RecipeStore.categoryById(recipe.category);
     var cuisine = RecipeStore.cuisineById(recipe.cuisine);
+    var method = RecipeStore.methodById(recipe.method);
     var holidays = (recipe.holidays || []).map(function (id) {
       var holiday = RecipeStore.holidayById(id);
       return holiday ? holiday.title : id;
@@ -451,6 +738,7 @@
     var kicker = [
       category ? category.title : '',
       cuisine ? cuisine.title : '',
+      method ? method.title : '',
       holidays.join(', ')
     ].filter(Boolean).join(' · ');
 
@@ -742,8 +1030,14 @@
     state.query = '';
     state.category = 'all';
     state.cuisine = 'all';
+    state.methods = [];
+    state.tags = [];
+    state.tagQuery = '';
     if (refs.search) {
       refs.search.value = '';
+    }
+    if (refs.tagSearch) {
+      refs.tagSearch.value = '';
     }
     state.mode = 'selected';
     updateModeUI();
@@ -910,6 +1204,12 @@
   }
 
   function bindEvents() {
+    if (refs.filters) {
+      refs.filters.addEventListener('submit', function (event) {
+        event.preventDefault();
+      });
+    }
+
     refs.grid.addEventListener('click', function (event) {
       var target = event.target;
       var select = target && target.closest
@@ -968,6 +1268,12 @@
         state.query = '';
         state.category = 'all';
         state.cuisine = 'all';
+        state.methods = [];
+        state.tags = [];
+        state.tagQuery = '';
+        if (refs.tagSearch) {
+          refs.tagSearch.value = '';
+        }
         if (state.mode === 'selected' && !selectedCount()) {
           setMode('all', false);
         } else {
@@ -978,6 +1284,28 @@
         }
       });
     });
+
+    if (refs.tagReset) {
+      refs.tagReset.addEventListener('click', function () {
+        if (!state.tags.length) {
+          return;
+        }
+        state.tags = [];
+        state.tagQuery = '';
+        if (refs.tagSearch) {
+          refs.tagSearch.value = '';
+        }
+        render();
+        refs.tagSearch.focus();
+      });
+    }
+
+    if (refs.tagSearch) {
+      refs.tagSearch.addEventListener('input', function () {
+        state.tagQuery = refs.tagSearch.value;
+        buildTagFilter();
+      });
+    }
 
     Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (button) {
       button.addEventListener('click', closeRecipe);

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Рецепты праздничного стола — Праздники события</title>
-<meta name="description" content="База рецептов праздничного стола: 500 блюд шести кухонь с составом, граммовками, весом или объёмом готового блюда и пошаговым приготовлением. Данные хранятся в JSON.">
+<meta name="description" content="База рецептов праздничного стола: 500 блюд шести кухонь с составом, граммовками, весом или объёмом готового блюда и пошаговым приготовлением.">
 <meta name="theme-color" content="#fdfcf9">
 <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../css/base.css">
@@ -43,8 +43,9 @@
         среднеазиатской, ближневосточной и балканской. Выберите все рецепты
         или отметьте нужные звездой на карточке — они появятся во вкладке
         «Выбранные». Для подборки автоматически формируется код: нажмите
-        «Поделиться выбранными», и друг увидит тот же набор. База хранится
-        в <code>data/recipes.json</code> и пополняется без правок кода.
+        «Поделиться выбранными», и друг увидит тот же набор. Фильтр
+        «Способ приготовления» помогает выбрать блюда для казана, мангала,
+        плиты или тандыра.
       </p>
       <p class="recipes-count">500 рецептов</p>
     </section>
@@ -89,6 +90,24 @@
             Поделиться
             <span class="share-count" data-share-count hidden>0</span>
           </button>
+        </div>
+        <div class="method-filter" data-method-filter hidden>
+          <p class="method-filter-title">Способ приготовления</p>
+          <div class="method-filter-list" data-method-list></div>
+        </div>
+        <div class="tag-filter" data-tag-filter hidden>
+          <div class="tag-filter-head">
+            <h3>Теги <span class="tag-filter-total" data-tag-total></span></h3>
+            <button class="reset tag-reset" type="button" data-reset-tags hidden>
+              Сбросить теги
+            </button>
+          </div>
+          <p class="tag-filter-search">
+            <label class="visually-hidden" for="tag-search">Поиск по тегам</label>
+            <input id="tag-search" type="search" placeholder="Найти тег"
+                   autocomplete="off" data-tag-search>
+          </p>
+          <div class="tag-filter-list" data-tag-list></div>
         </div>
       </form>
 
